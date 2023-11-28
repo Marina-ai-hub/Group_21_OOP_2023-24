@@ -12,7 +12,7 @@ using namespace std;
 class Filters {
     string type, genre;
     // int GenreSelected, TypeSelected;
-    static string TypeFilters[MAX_LEN];    //оголошення статичного поля всередениці класу
+    static string TypeFilters[MAX_LEN];    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     static string GenreFilters[MAX_LEN];
 public:
     Filters() {
@@ -60,7 +60,7 @@ public:
         }
         cout << endl << "===========================================================================================";
     };
-    // !!!тільки розуміє маленьку літеру як false
+    // !!!пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅміє пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ false
     bool TypeSelected(const string& _type) {
         for (int i = 0; i < MAX_TYPE_LEN; i++) {
             if (_type == TypeFilters[i]) {
@@ -72,20 +72,98 @@ public:
     bool GenreSelected(const string& _genre) {
         for (int i = 0; i < MAX_GENRE_LEN; i++) {
             if (_genre == GenreFilters[i]) {
-                return true;  //знайшли хоч один елемент
+                return true;  //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             }
         }
         return false;
     };
 
 };
-//ініціалізація статичного поля поза класом
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 string Filters::TypeFilters[] = { "Film","Series", "Cartoon" };
 string Filters::GenreFilters[] = { "Action", "Adventure", "Comedy", "Drama", "Fantasy", "Horror", "Musicals", "Romance", "Sci-fi", "Sports", "Thriller" };
 
 class Movie {
-
+    const string title;
+    const string description;
+    const string genre[MAX_LEN];
+    const string type;
+    float rating;
+public:
+    Movie() {
+        cout << "//Default Movie constructor//" << endl;
+    }
+    Movie(string _title, string _description, string _genre[], string _type, float _rating): title(_title), description(_description), genre(_genre[]), type(_type), rating(_rating) {
+        cout << "//Movie constructor with parameters//" << endl;
+    }
+    Movie(Movie& copy): title(copy.title), description(copy.description), genre(copy.genre[]), type(copy.type), rating(copy.rating){
+        cout << "//Movie copy constructor//" << endl;
+    }
+    string getTitle() const{
+        return title;
+    }
+    string getDescription() const{
+        return description;
+    }
+    string getGenre() const{
+        return genre[MAX_LEN];
+    }
+    string getType() const{
+        return type;
+    }
+    float getRating(){
+        return rating;
+    }
+    //Movie& setTitle(string _title){}
+    //Movie& setDescription(string _description){}
+    //Movie& setGenre(string _genre[]){}
+    //Movie& setType(string _type){}
+    Movie& setRating(float _rating){
+        rating = _rating;
+        return *this;
+    }
+    ~Movie(){
+         cout << "//Movie destructor//" << endl;
+    }
+    void show(){
+        cout << "\n Title : "<< title << endl;
+        cout << " Description : "<< description << endl;
+        for (int i=0 ; i< MAX_LEN ; i++){
+            if (genre[i] != "")
+                cout << " Genre[" << i+1 <<"] : " << genre[i] << endl;
+        }
+        cout << " Type : " << type << endl;
+        cout << " Rating : " << rating << endl;
+    }
 };
+
+class Series: public Movie {
+    int seasons;
+    Series(){
+        cout << "//Series default constructor//" << endl;
+    }
+    Series(int _seasons): seasons(_seasons){
+        cout << "//Series constructor with parameter//" << endl;
+    }
+    Series(Series& copy): seasons(copy.seasons){
+        cout << "//Series copy constructor//" << endl;
+    }
+    int getSeasons(){
+        return seasons;
+    }
+    Series& setSeasons(int _seasons){
+        seasons = _seasons;
+        return *this;
+    }
+    ~Series(){
+        cout << "//Series destructor//" << endl;
+    }
+    void show(){
+        Movie::show();
+        cout << "\n Seasons : "<< seasons << endl;
+    }
+};
+
 class MovieList {
     vector<Movie> movie_list;
 };
@@ -113,7 +191,7 @@ int main() {
     }
     if (f_obj1.GenreSelected(ggenre)) {
         cout << "YES2!Selected" << endl;
-        // f_obj1.GetGenre(); // і далі щось робити з цим значенням
+        // f_obj1.GetGenre(); // пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
     else {
         cout << "NO2" << endl;
