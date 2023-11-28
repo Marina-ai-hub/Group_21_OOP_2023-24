@@ -86,17 +86,20 @@ string Filters::GenreFilters[] = { "Action", "Adventure", "Comedy", "Drama", "Fa
 class Movie {
     const string title;
     const string description;
-    const string genre[MAX_LEN];
+    string genre[MAX_LEN];
     const string type;
     float rating;
 public:
     Movie() {
         cout << "//Default Movie constructor//" << endl;
     }
-    Movie(string _title, string _description, string _genre[], string _type, float _rating): title(_title), description(_description), genre(_genre[]), type(_type), rating(_rating) {
+    Movie(string _title, string _description, string _genre[], string _type, float _rating): title(_title), description(_description), type(_type), rating(_rating) {
+        for(int i=0; i<MAX_LEN; i++){
+            genre[i] = _genre[i];
+        }
         cout << "//Movie constructor with parameters//" << endl;
     }
-    Movie(Movie& copy): title(copy.title), description(copy.description), genre(copy.genre[]), type(copy.type), rating(copy.rating){
+    Movie(Movie& copy): title(copy.title), description(copy.description), genre(copy.genre), type(copy.type), rating(copy.rating){
         cout << "//Movie copy constructor//" << endl;
     }
     string getTitle() const{
@@ -116,7 +119,11 @@ public:
     }
     //Movie& setTitle(string _title){}
     //Movie& setDescription(string _description){}
-    //Movie& setGenre(string _genre[]){}
+    Movie& setGenre(string _genre[]){
+        for (int i=0; i < MAX_LEN; i++) {
+            genre[i] = _genre[i];
+        }
+    }
     //Movie& setType(string _type){}
     Movie& setRating(float _rating){
         rating = _rating;
