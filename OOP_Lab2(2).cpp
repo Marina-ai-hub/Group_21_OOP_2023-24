@@ -17,7 +17,7 @@ class Filters {
 public:
     Filters() {
         type = "no type selected";
-        genre = "no type selected";
+        ggenre="no genre selected";
         cout << "//Default Filters constructor//" << endl;
     };
     Filters(string _type, string _genre) : type(_type), genre(_genre) {
