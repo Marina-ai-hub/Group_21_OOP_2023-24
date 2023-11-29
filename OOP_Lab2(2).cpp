@@ -61,7 +61,7 @@ public:
         cout << endl << "===========================================================================================";
     };
     // !!!����� ����쳺 �������� ����� �� false
-    bool TypeSelected(const string& _type) {
+    bool TypeSelected(const string& _type) const{
         for (int i = 0; i < MAX_TYPE_LEN; i++) {
             if (_type == TypeFilters[i]) {
                 return true;
@@ -69,7 +69,7 @@ public:
         }
         return false;
     };
-    bool GenreSelected(const string& _genre) {
+    bool GenreSelected(const string& _genre) const{
         for (int i = 0; i < MAX_GENRE_LEN; i++) {
             if (_genre == GenreFilters[i]) {
                 return true;  //������� ��� ���� �������
