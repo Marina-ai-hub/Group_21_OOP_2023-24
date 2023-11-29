@@ -84,22 +84,35 @@ string Filters::TypeFilters[] = { "Film","Series", "Cartoon" };
 string Filters::GenreFilters[] = { "Action", "Adventure", "Comedy", "Drama", "Fantasy", "Horror", "Musicals", "Romance", "Sci-fi", "Sports", "Thriller" };
 
 class Movie {
-    const string title;
-    const string description;
-    string genre[MAX_LEN];
-    const string type;
+    string title;
+    string description;
+    string *genre;
+    int genre_len;
+    string type;
     float rating;
 public:
-    Movie() {
+    Movie(): title(""), description(""), genre(nullptr), genre_len(0), type(""), rating(0.0) {
         cout << "//Default Movie constructor//" << endl;
     }
-    Movie(string _title, string _description, string _genre[], string _type, float _rating): title(_title), description(_description), type(_type), rating(_rating) {
-        for(int i=0; i<MAX_LEN; i++){
+    Movie(string _title, string _description, string _genre[], int len, string _type, float _rating):
+    title(_title), description(_description), type(_type), rating(_rating) {
+        genre_len = len;
+        genre = new string[len];
+        for(int i=0; i<genre_len; i++){
             genre[i] = _genre[i];
         }
         cout << "//Movie constructor with parameters//" << endl;
     }
-    Movie(Movie& copy): title(copy.title), description(copy.description), genre(copy.genre), type(copy.type), rating(copy.rating){
+    Movie(const Movie& copy){
+        title = copy.title;
+        description = copy.description;
+        type = copy.type;
+        rating = copy.rating;
+        genre_len = copy.genre_len;
+        genre = new string[copy.genre_len];
+        for(int i=0; i<copy.genre_len; i++){
+            genre[i] = copy.genre[i];
+        }
         cout << "//Movie copy constructor//" << endl;
     }
     string getTitle() const{
@@ -109,22 +122,34 @@ public:
         return description;
     }
     string getGenre() const{
-        return genre[MAX_LEN];
+        return *genre;
     }
     string getType() const{
         return type;
     }
-    float getRating(){
+    float getRating() const{
         return rating;
     }
-    //Movie& setTitle(string _title){}
-    //Movie& setDescription(string _description){}
-    Movie& setGenre(string _genre[]){
+    Movie& setTitle(string _title){
+        title = _title;
+        return *this;
+    }
+    Movie& setDescription(string _description){
+        description = _description;
+        return *this;
+    }
+    Movie& setGenre(string _genre[], int len){
+        genre_len = len;
+        genre = new string[len];
         for (int i=0; i < MAX_LEN; i++) {
             genre[i] = _genre[i];
         }
+        return *this;
     }
-    //Movie& setType(string _type){}
+    Movie& setType(string _type){
+        type = _type;
+        return *this;
+    }
     Movie& setRating(float _rating){
         rating = _rating;
         return *this;
@@ -135,8 +160,8 @@ public:
     void show(){
         cout << "\n Title : "<< title << endl;
         cout << " Description : "<< description << endl;
-        for (int i=0 ; i< MAX_LEN ; i++){
-            if (genre[i] != "")
+        for (int i=0 ; i<genre_len; i++){
+            if (genre != nullptr)
                 cout << " Genre[" << i+1 <<"] : " << genre[i] << endl;
         }
         cout << " Type : " << type << endl;
@@ -146,13 +171,15 @@ public:
 
 class Series: public Movie {
     int seasons;
-    Series(){
+public:
+    Series(): seasons(0){
         cout << "//Series default constructor//" << endl;
     }
-    Series(int _seasons): seasons(_seasons){
+    Series(string _title, string _description, string _genre[], int len, string _type, float _rating, int _seasons):
+    Movie(_title, _description, _genre, len, _type, _rating), seasons(_seasons){
         cout << "//Series constructor with parameter//" << endl;
     }
-    Series(Series& copy): seasons(copy.seasons){
+    Series(Series& copy): Movie(copy), seasons(copy.seasons){
         cout << "//Series copy constructor//" << endl;
     }
     int getSeasons(){
@@ -167,7 +194,7 @@ class Series: public Movie {
     }
     void show(){
         Movie::show();
-        cout << "\n Seasons : "<< seasons << endl;
+        cout << " Seasons : "<< seasons << endl;
     }
 };
 
@@ -203,6 +230,22 @@ int main() {
     else {
         cout << "NO2" << endl;
     }
+
+    string m1_genres[] = {"Action", "Thriller"};
+    int len1 = sizeof(m1_genres)/sizeof(m1_genres[0]);
+    Movie m1("Fight Club", "Very intense", m1_genres, len1, "Film", 4.7);
+    m1.show();
+
+    string m2_genres[] = {"Musicals", "Comedy", "Romance"};
+    int len2 = sizeof(m2_genres)/sizeof(m2_genres[0]);
+    Movie m2("Mamma Mia", "With ABBA songs", m2_genres, len2, "Film", 4.5);
+    m2.show();
+
+    string m3_genres[] = {"Comedy"};
+    int len3 = sizeof(m3_genres)/sizeof(m3_genres[0]);
+    Series m3("Office", "Very fuuny", m3_genres, len3, "Series", 4.8, 9);
+    m3.show();
+
 
     return 0;
 }
