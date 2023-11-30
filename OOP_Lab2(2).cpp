@@ -200,6 +200,10 @@ public:
 
 class MovieList {
     vector<Movie> movie_list;
+public:
+    MovieList(){
+        cout << "//MovieList default constructor//" << endl;
+    };
 };
 
 int main() {
@@ -246,6 +250,10 @@ int main() {
     Series m3("Office", "Very fuuny", m3_genres, len3, "Series", 4.8, 9);
     m3.show();
 
+    MovieList mlist;
+    mlist.AddMovie(m1);
+    mlist.AddMovie(m2);
+    mlist.AddMovie(m3);
 
     return 0;
 }
