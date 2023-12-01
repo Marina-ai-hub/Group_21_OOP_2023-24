@@ -17,7 +17,7 @@ class Filters {
 public:
     Filters() {
         type = "no type selected";
-        ggenre="no genre selected";
+        genre="no genre selected";
         cout << "//Default Filters constructor//" << endl;
     };
     Filters(string _type, string _genre) : type(_type), genre(_genre) {
@@ -204,7 +204,11 @@ public:
     MovieList(){
         cout << "//MovieList default constructor//" << endl;
     };
+    void AddMovie(const Movie& movie) {
+        movie_list.push_back(movie);
+    }
 };
+
 class Generation {
 
     Movie result;
