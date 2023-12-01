@@ -205,7 +205,121 @@ public:
         cout << "//MovieList default constructor//" << endl;
     };
 };
+class Generation {
 
+    Movie result;
+
+public:
+    Generation() {
+        cout << "//Default Generation constructor//" << endl;
+    }
+
+    Generation(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_) :result(_title_, _description_, _genre_, len_, _type_, _rating_) {
+        cout << "//Generation constructor with parameters//" << endl;
+    }
+
+    Generation(const Generation& other) : result(other.result) {
+        cout << "//Generation copy constructor//" << endl;
+    }
+
+    ~Generation() {
+        cout << "//Generation destructor//" << endl;
+    }
+
+    Movie getResult() const {
+        return result;
+    }
+
+    Generation& setResult(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_) {
+        result.setTitle(_title_);
+        result.setDescription(_description_);
+        return *this;
+        result.setGenre(_genre_, len_);
+        result.setType(_type_);
+        result.setRating(_rating_);
+        return *this;
+    }
+
+
+    void show() {
+        cout << " Result : ";
+        result.show();
+        cout << endl;
+    }
+};
+
+class User {
+    string name;
+    string email;
+    string password;
+    Generation result;
+public:
+    User() {
+        name = "Noname";
+        email = "Noemail";
+        password = "Nopassword";
+        cout << "//Default User constructor//" << endl;
+    }
+    User(const string _name, string _email, string _password) : name(_name), email(_email), password(_password) {
+        cout << "//User constructor with parameters//" << endl;
+    }
+
+    User(const User& other) :name(other.name), email(other.email), password(other.password), result(other.result) {
+        cout << "//User copy constructor//" << endl;
+    }
+
+    ~User() {
+        cout << "//User destructor//" << endl;
+    }
+
+    string getName() const {
+        return name;
+    }
+
+    User& setName(string newName) {
+        name = newName;
+        return *this;
+    }
+
+    string getEmail() const {
+        return email;
+    }
+
+    User& setEmail(string newEmail) {
+        email = newEmail;
+        return *this;
+    }
+
+    string getPassword() const {
+        return password;
+
+    }
+
+    User& setPassword(string newPassword) {
+        password = newPassword;
+        return *this;
+    }
+
+    Generation getResult() const {
+        return result;
+
+    }
+
+    User& setResult(Generation _result) {
+        result = _result;
+        return *this;
+    }
+
+    void show2() {
+        cout << " Name : " << name << endl;
+        cout << " Email : " << email << endl;
+        cout << " Password : " << password << endl;
+        //cout << " Result : ";
+        result.show();
+        cout << endl;
+    }
+
+};
 int main() {
     Filters f;
     f.ShowFilters();
@@ -255,5 +369,24 @@ int main() {
     mlist.AddMovie(m2);
     mlist.AddMovie(m3);
 
+    User u;
+    u.show2();
+    User u1("Matilda", "matilda@gmail.com", "ma123");
+    u1.show2();
+    u1.setName("lera");
+    User u2(u1);
+    u2.show2();
+    //
+    Generation g;
+    g.show();
+    string genres[] = { "Action", "Fantasy" };
+    int kot = sizeof(genres) / sizeof(genres[0]);
+    Generation g1("The hunger games", "Very interesting", genres, kot, "Film", 4.7);
+    g1.show();
+    string genres_[] = { "Adventure", "Fantasy" };
+    int kot1 = sizeof(genres_) / sizeof(genres_[0]);
+    g1.setResult("Pirates of the Caribbean", "Very interesting", genres_, kot1, "Film", 4.5);
+    Generation g2(g1);
+    g2.show();
     return 0;
 }
