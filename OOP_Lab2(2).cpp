@@ -225,7 +225,14 @@ public:
     Generation(const Generation& other) : result(other.result) {
         cout << "//Generation copy constructor//" << endl;
     }
-
+    /////
+    Generation(Movie& _result): result(_result){
+        cout << "//Generation constructor with parameters//" << endl;
+    };
+    Generation(Generation& copy): result(copy.result){
+        cout << "//Generation copy constructor//" << endl;
+    };
+    /////
     ~Generation() {
         cout << "//Generation destructor//" << endl;
     }
@@ -383,6 +390,7 @@ int main() {
     //
     Generation g;
     g.show();
+   /*
     string genres[] = { "Action", "Fantasy" };
     int kot = sizeof(genres) / sizeof(genres[0]);
     Generation g1("The hunger games", "Very interesting", genres, kot, "Film", 4.7);
@@ -392,5 +400,12 @@ int main() {
     g1.setResult("Pirates of the Caribbean", "Very interesting", genres_, kot1, "Film", 4.5);
     Generation g2(g1);
     g2.show();
+    */
+////
+    cout<<"Generation from Movie"<<endl;
+    Generation g4(m1);
+    g4.show();
+    Generation g5(g4);
+    g5.show();
     return 0;
 }
