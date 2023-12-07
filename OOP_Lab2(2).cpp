@@ -157,7 +157,7 @@ public:
     ~Movie(){
          cout << "//Movie destructor//" << endl;
     }
-    void show(){
+    virtual void show(){
         cout << "\n Title : "<< title << endl;
         cout << " Description : "<< description << endl;
         for (int i=0 ; i<genre_len; i++){
@@ -179,10 +179,10 @@ public:
     Movie(_title, _description, _genre, len, _type, _rating), seasons(_seasons){
         cout << "//Series constructor with parameter//" << endl;
     }
-    Series(Series& copy): Movie(copy), seasons(copy.seasons){
+    Series(const Series& copy): Movie(copy), seasons(copy.seasons){
         cout << "//Series copy constructor//" << endl;
     }
-    int getSeasons(){
+    int getSeasons() const{
         return seasons;
     }
     Series& setSeasons(int _seasons){
@@ -243,9 +243,10 @@ int main() {
 
     string m3_genres[] = {"Comedy"};
     int len3 = sizeof(m3_genres)/sizeof(m3_genres[0]);
-    Series m3("Office", "Very fuuny", m3_genres, len3, "Series", 4.8, 9);
+    Series m3("Office", "Very funny", m3_genres, len3, "Series", 4.8, 9);
     m3.show();
 
 
     return 0;
 }
+
