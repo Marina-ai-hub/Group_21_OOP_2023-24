@@ -23,7 +23,7 @@ public:
     Filters(string _type, string _genre) : type(_type), genre(_genre) {
         cout << "//Filters constructor with parameters//" << endl;
     };
-    Filters(Filters& copy) {
+    Filters(const Filters& copy) {
         type = copy.type;
         genre = copy.genre;
         cout << "//Filters copy constructor//" << endl;
@@ -36,19 +36,19 @@ public:
         genre = _genre;
         return *this;
     }
-    string GetType() {
+    string GetType() const{
         return type;
     };
-    string GetGenre() {
+    string GetGenre() const{
         return genre;
     };
     ~Filters() {
         cout << "//Filters destructor//" << endl;
     };
-    void Show() {
+    void Show() const{
         cout << "Selected filters: (type) - " << type << " " << "(genre) - " << genre << endl;
     };
-    void ShowFilters() {
+    void ShowFilters() const{
         cout << "===========================================================================================" << endl;
         cout << "(Type) Filters: ";
         for (int i = 0; i < MAX_TYPE_LEN; ++i) {
@@ -244,7 +244,6 @@ public:
     Generation& setResult(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_) {
         result.setTitle(_title_);
         result.setDescription(_description_);
-        return *this;
         result.setGenre(_genre_, len_);
         result.setType(_type_);
         result.setRating(_rating_);
@@ -271,7 +270,7 @@ public:
         password = "Nopassword";
         cout << "//Default User constructor//" << endl;
     }
-    User(const string _name, string _email, string _password) : name(_name), email(_email), password(_password) {
+    User(string _name, string _email, string _password) : name(_name), email(_email), password(_password) {
         cout << "//User constructor with parameters//" << endl;
     }
 
@@ -379,34 +378,21 @@ int main() {
     mlist.AddMovie(m1);
     mlist.AddMovie(m2);
     mlist.AddMovie(m3);
-
-    User u;
-    u.show2();
-    User u1("Matilda", "matilda@gmail.com", "ma123");
-    u1.show2();
-    u1.setName("lera");
-    User u2(u1);
-    u2.show2();
     //
     Generation g;
     g.show();
-   /*
-    string genres[] = { "Action", "Fantasy" };
-    int kot = sizeof(genres) / sizeof(genres[0]);
-    Generation g1("The hunger games", "Very interesting", genres, kot, "Film", 4.7);
-    g1.show();
-    string genres_[] = { "Adventure", "Fantasy" };
-    int kot1 = sizeof(genres_) / sizeof(genres_[0]);
-    g1.setResult("Pirates of the Caribbean", "Very interesting", genres_, kot1, "Film", 4.5);
-    Generation g2(g1);
-    g2.show();
-    */
-////
-    cout<<"Generation from Movie"<<endl;
-    Generation g4(m1);
+    cout<<"====Generation from Movie"<<endl;
+    Generation g4(m2);
     g4.show();
     Generation g5(g4);
     g5.show();
-    return 0;
+
+    Generation g;
+    g.show();
+    cout<<"====Generation from Movie"<<endl;
+    Generation g4(m2);
+    g4.show();
+    Generation g5(g4);
+    g5.show();
 }
 
