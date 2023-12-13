@@ -118,9 +118,7 @@ public:
     string getTitle() const{
         return title;
     }
-    string getDescription() const{
-        return description;
-    }
+    string getDescription() const;
     string getGenre() const{
         return *genre;
     }
@@ -130,10 +128,7 @@ public:
     float getRating() const{
         return rating;
     }
-    Movie& setTitle(string _title){
-        title = _title;
-        return *this;
-    }
+    Movie& setTitle(string _title);
     Movie& setDescription(string _description){
         description = _description;
         return *this;
@@ -157,17 +152,25 @@ public:
     ~Movie(){
          cout << "//Movie destructor//" << endl;
     }
-    virtual void show(){
-        cout << "\n Title : "<< title << endl;
-        cout << " Description : "<< description << endl;
-        for (int i=0 ; i<genre_len; i++){
-            if (genre != nullptr)
-                cout << " Genre[" << i+1 <<"] : " << genre[i] << endl;
-        }
-        cout << " Type : " << type << endl;
-        cout << " Rating : " << rating << endl;
-    }
+    virtual void show();
 };
+
+string Movie:: getDescription() const{
+    return description;
+}
+
+Movie& Movie:: setTitle(string _title){
+    title = _title;
+    return *this;
+}
+
+void Movie:: show(){
+    cout << "\n Title : "<< title << endl;
+    cout << " Description : "<< description << endl;
+    for (int i=0 ; i<genre_len; i++){
+        if (genre != nullptr)
+            cout << " Genre[" << i+1 <<"] : " << genre[i] << endl;
+    }
 
 class Series: public Movie {
     int seasons;
