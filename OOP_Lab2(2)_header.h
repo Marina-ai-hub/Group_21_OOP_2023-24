@@ -35,3 +35,46 @@ public:
     bool GenreSelected(const string& _genre) const;
     friend istream& operator >> (istream&, Filters&);
 };
+
+
+
+
+
+
+
+
+
+
+class Generation {
+    Movie result;
+public:
+    Generation();
+    Generation(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_);
+    Generation(const Generation& other);
+    Generation(Movie& _result);
+    Generation(Generation& copy);
+    ~Generation();
+    Movie getResult() const;
+    Generation& setResult(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_);
+    void show();
+};
+class User {
+    string name;
+    string email;
+    string password;
+    Generation result;
+public:
+    User();
+    User(string _name, string _email, string _password);
+    User(const User& other);
+    ~User();
+    string getName() const;
+    User& setName(string newName);
+    string getEmail() const;
+    User& setEmail(string newEmail);
+    string getPassword() const;
+    User& setPassword(string newPassword);
+    Generation getResult() const;
+    User& setResult(Generation _result);
+    void show();
+};
