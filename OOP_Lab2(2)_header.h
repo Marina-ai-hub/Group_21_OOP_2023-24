@@ -1,5 +1,3 @@
-#ifndef UNTITLED11_LABOOP_H
-#define UNTITLED11_LABOOP_H
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -10,7 +8,6 @@ using namespace std;
 #define MAX_LEN 100
 #define MAX_TYPE_LEN 3
 #define MAX_GENRE_LEN 11
-#endif //UNTITLED11_LABOOP_H
 
 
 class Filters {
@@ -18,7 +15,7 @@ class Filters {
 //private:
 public:
     string type, genre;
-    static string TypeFilters[MAX_LEN];   
+    static string TypeFilters[MAX_LEN];
     static string GenreFilters[MAX_LEN];
 public:
     Filters();
@@ -36,8 +33,43 @@ public:
     friend istream& operator >> (istream&, Filters&);
 };
 
+class Movie {
+protected:
+    string title;
+    string description;
+    string *genre;
+    int genre_len;
+    string type;
+    float rating;
+public:
+    Movie();
+    Movie(string _title, string _description, string _genre[], int len, string _type, float _rating);
+    Movie(const Movie& copy);
+    string getTitle() const;
+    string getDescription() const;
+    string getGenre() const;
+    string getType() const;
+    float getRating() const;
+    Movie& setTitle(string _title);
+    Movie& setDescription(string _description);
+    Movie& setGenre(string _genre[], int len);
+    Movie& setType(string _type);
+    Movie& setRating(float _rating);
+    virtual ~Movie();
+    virtual void show();
+};
 
-
+class Series: public Movie {
+    int seasons;
+public:
+    Series();
+    Series(string _title, string _description, string _genre[], int len, string _type, float _rating, int _seasons);
+    Series(const Series& copy);
+    int getSeasons() const;
+    Series& setSeasons(int _seasons);
+    ~Series();
+    void show();
+};
 
 class MovieList {
     vector<Movie> movie_list;
@@ -62,6 +94,7 @@ public:
     Generation& setResult(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_);
     void show();
 };
+
 class User {
     string name;
     string email;
