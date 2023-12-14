@@ -39,11 +39,15 @@ public:
 
 
 
-
-
-
-
-
+class MovieList {
+    vector<Movie> movie_list;
+public:
+    MovieList();
+//    void AddMovie(const Movie& movie) {
+//        movie_list.push_back(movie);
+//    }
+    Movie& operator()(Movie&);
+};
 
 class Generation {
     Movie result;
