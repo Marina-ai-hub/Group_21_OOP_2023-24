@@ -3,85 +3,72 @@
 #include <string.h>
 #include <algorithm>
 #include <vector>
+#include "LabOOP.h"
 
 using namespace std;
 #define MAX_LEN 100
 #define MAX_TYPE_LEN 3
 #define MAX_GENRE_LEN 11
 
-class Filters {
-    string type, genre;
-    // int GenreSelected, TypeSelected;
-    static string TypeFilters[MAX_LEN];    //���������� ���������� ���� ����������� �����
-    static string GenreFilters[MAX_LEN];
-public:
-    Filters() {
-        type = "no type selected";
-        genre="no genre selected";
-        cout << "//Default Filters constructor//" << endl;
-    };
-    Filters(string _type, string _genre) : type(_type), genre(_genre) {
-        cout << "//Filters constructor with parameters//" << endl;
-    };
-    Filters(const Filters& copy) {
-        type = copy.type;
-        genre = copy.genre;
-        cout << "//Filters copy constructor//" << endl;
-    };
-    Filters& SetType(string _type) {
-        type = _type;
-        return *this;
-    };
-    Filters& SetGenre(string _genre) {
-        genre = _genre;
-        return *this;
-    }
-    string GetType() const{
-        return type;
-    };
-    string GetGenre() const{
-        return genre;
-    };
-    ~Filters() {
-        cout << "//Filters destructor//" << endl;
-    };
-    void Show() const{
-        cout << "Selected filters: (type) - " << type << " " << "(genre) - " << genre << endl;
-    };
-    void ShowFilters() const{
-        cout << "===========================================================================================" << endl;
-        cout << "(Type) Filters: ";
-        for (int i = 0; i < MAX_TYPE_LEN; ++i) {
-            cout << TypeFilters[i] << " ";
-        }cout << endl;
-        cout << "(Genre) Filters: ";
-        for (int i = 0; i < MAX_GENRE_LEN; ++i) {
-            cout << GenreFilters[i] << " ";
-        }
-        cout << endl << "===========================================================================================";
-    };
-    // !!!����� ����쳺 �������� ����� �� false
-    bool TypeSelected(const string& _type) const{
-        for (int i = 0; i < MAX_TYPE_LEN; i++) {
-            if (_type == TypeFilters[i]) {
-                return true;
-            }
-        }
-        return false;
-    };
-    bool GenreSelected(const string& _genre) const{
-        for (int i = 0; i < MAX_GENRE_LEN; i++) {
-            if (_genre == GenreFilters[i]) {
-                return true;  //������� ��� ���� �������
-            }
-        }
-        return false;
-    };
-
-};
-//������������ ���������� ���� ���� ������
 string Filters::TypeFilters[] = { "Film","Series", "Cartoon" };
 string Filters::GenreFilters[] = { "Action", "Adventure", "Comedy", "Drama", "Fantasy", "Horror", "Musicals", "Romance", "Sci-fi", "Sports", "Thriller" };
+
+Filters:: Filters() {
+    type = "no type selected";
+    genre="no genre selected";
+};
+Filters:: Filters(string _type, string _genre) : type(_type), genre(_genre) {};
+Filters:: Filters(const Filters& copy) {
+    type = copy.type;
+    genre = copy.genre;
+}
+Filters& Filters:: SetGenre(string _genre) {
+genre = _genre;
+return *this;
+}
+Filters& Filters:: SetType(string _type) {
+    type = _type;
+    return *this;
+};
+string Filters:: GetType() const {
+    return type;
+};
+string Filters:: GetGenre() const {
+    return genre;
+};
+Filters:: ~Filters(){};
+void Filters:: Show() const{
+    cout << "Selected filters: (type) - " << type << " " << "(genre) - " << genre << endl;
+};
+void Filters:: ShowFilters(){
+    cout << "===========================================================================================" << endl;
+    cout << "(Type) Filters: ";
+    for (int i = 0; i < MAX_TYPE_LEN; ++i) {
+        cout << TypeFilters[i] << " ";
+    }cout << endl;
+    cout << "(Genre) Filters: ";
+    for (int i = 0; i < MAX_GENRE_LEN; ++i) {
+        cout << GenreFilters[i] << " ";
+    }
+    cout << endl << "===========================================================================================";
+};
+bool Filters:: TypeSelected(const string& _type) const{
+    for (int i = 0; i < MAX_TYPE_LEN; i++) {
+        if (_type == TypeFilters[i]) {
+            return true;
+        }
+    }
+    return false;
+};
+bool Filters:: GenreSelected(const string& _genre) const{
+    for (int i = 0; i < MAX_GENRE_LEN; i++) {
+        if (_genre == GenreFilters[i]) {
+            return true;
+        }
+    }
+    return false;
+};
+
 
 class Movie {
     string title;
@@ -201,151 +188,115 @@ public:
     }
 };
 
-class MovieList {
-    vector<Movie> movie_list;
-public:
-    MovieList(){
-        cout << "//MovieList default constructor//" << endl;
-    };
-    void AddMovie(const Movie& movie) {
-        movie_list.push_back(movie);
-    }
+
+MovieList:: MovieList(){};
+Movie& MovieList::operator()(Movie& movie) {
+    movie_list.push_back(movie);
 };
 
-class Generation {
+Generation::Generation() {}
+Generation::Generation(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_) :result(_title_, _description_, _genre_, len_, _type_, _rating_) {}
+Generation::Generation(const Generation& other) : result(other.result) {}
+Generation::Generation(Movie& _result) : result(_result) {};
+Generation::Generation(Generation& copy) : result(copy.result) {};
+Generation::~Generation() {}
+Movie Generation:: getResult() const {
+    return result;
+}
+Generation& Generation:: setResult(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_) {
+    result.setTitle(_title_);
+    result.setDescription(_description_);
+    result.setGenre(_genre_, len_);
+    result.setType(_type_);
+    result.setRating(_rating_);
+    return *this;
+}
+void Generation ::show() {
+    cout << " Result : ";
+    result.show();
+    cout << endl;
+}
 
-    Movie result;
+User::User() {
+    name = "Noname";
+    email = "Noemail";
+    password = "Nopassword";
+}
+User::User(string _name, string _email, string _password) : name(_name), email(_email), password(_password) {
+}
 
-public:
-    Generation() {
-        cout << "//Default Generation constructor//" << endl;
+User::User(const User& other) :name(other.name), email(other.email), password(other.password), result(other.result) {
+}
+User::~User() {}
+string User::getName() const {
+    return name;
+}
+User& User::setName(string newName) {
+    name = newName;
+    return *this;
+}
+string User::getEmail() const {
+    return email;
+}
+User& User::setEmail(string newEmail) {
+    email = newEmail;
+    return *this;
+}
+string User::getPassword() const {
+    return password;
+
+}
+User& User::setPassword(string newPassword) {
+    password = newPassword;
+    return *this;
+}
+Generation User::getResult() const {
+    return result;
+
+}
+User& User::setResult(Generation _result) {
+    result = _result;
+    return *this;
+}
+void User::show() {
+    cout << " Name : " << name << endl;
+    cout << " Email : " << email << endl;
+    cout << " Password : " << password << endl;
+    //cout << " Result : ";
+    result.show();
+    cout << endl;
+}
+
+
+
+istream& operator >> (istream&is, Filters&f){
+    is >> f.type;
+    is >> f.genre;
+    return is;
+}
+bool operator ==(const Movie& m_el, const Filters& f_el){
+    if(m_el.type == f_el.type) {
+        for (int i = 0; i < m_el.genre_len; i++) {
+            if ((m_el.genre[i] == f_el.genre))
+                return true;
+        }
     }
-
-    Generation(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_) :result(_title_, _description_, _genre_, len_, _type_, _rating_) {
-        cout << "//Generation constructor with parameters//" << endl;
-    }
-
-    Generation(const Generation& other) : result(other.result) {
-        cout << "//Generation copy constructor//" << endl;
-    }
-    /////
-    Generation(Movie& _result): result(_result){
-        cout << "//Generation constructor with parameters//" << endl;
-    };
-    Generation(Generation& copy): result(copy.result){
-        cout << "//Generation copy constructor//" << endl;
-    };
-    /////
-    ~Generation() {
-        cout << "//Generation destructor//" << endl;
-    }
-
-    Movie getResult() const {
-        return result;
-    }
-
-    Generation& setResult(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_) {
-        result.setTitle(_title_);
-        result.setDescription(_description_);
-        result.setGenre(_genre_, len_);
-        result.setType(_type_);
-        result.setRating(_rating_);
-        return *this;
-    }
-
-
-    void show() {
-        cout << " Result : ";
-        result.show();
-        cout << endl;
-    }
+    return false;
 };
 
-class User {
-    string name;
-    string email;
-    string password;
-    Generation result;
-public:
-    User() {
-        name = "Noname";
-        email = "Noemail";
-        password = "Nopassword";
-        cout << "//Default User constructor//" << endl;
-    }
-    User(string _name, string _email, string _password) : name(_name), email(_email), password(_password) {
-        cout << "//User constructor with parameters//" << endl;
-    }
-
-    User(const User& other) :name(other.name), email(other.email), password(other.password), result(other.result) {
-        cout << "//User copy constructor//" << endl;
-    }
-
-    ~User() {
-        cout << "//User destructor//" << endl;
-    }
-
-    string getName() const {
-        return name;
-    }
-
-    User& setName(string newName) {
-        name = newName;
-        return *this;
-    }
-
-    string getEmail() const {
-        return email;
-    }
-
-    User& setEmail(string newEmail) {
-        email = newEmail;
-        return *this;
-    }
-
-    string getPassword() const {
-        return password;
-
-    }
-
-    User& setPassword(string newPassword) {
-        password = newPassword;
-        return *this;
-    }
-
-    Generation getResult() const {
-        return result;
-
-    }
-
-    User& setResult(Generation _result) {
-        result = _result;
-        return *this;
-    }
-
-    void show2() {
-        cout << " Name : " << name << endl;
-        cout << " Email : " << email << endl;
-        cout << " Password : " << password << endl;
-        //cout << " Result : ";
-        result.show();
-        cout << endl;
-    }
-
-};
 int main() {
+    int temp;
+    float rate;
     Filters f;
     f.ShowFilters();
     string ggenre, ttype;
-    cout << "\nPlease select (TYPE):";
-    //cin>>ttype;
-    getline(cin, ttype);
+    AGAIN: cout << "\nPlease select (TYPE):";
+    cin>>ttype;                      //getline(cin, ttype);
     cout << "Please select (GENRE):";
-    getline(cin, ggenre);
-    //cin>>ggenre;
-    Filters f_obj0;
+    cin>>ggenre;                    //getline(cin, ggenre);
+//    Filters f_obj0;
+//    f_obj0.Show();
     Filters f_obj1(ttype, ggenre);
-    f_obj0.Show();
     f_obj1.Show();
 
     if (f_obj1.TypeSelected(ttype)) {
@@ -356,7 +307,6 @@ int main() {
     }
     if (f_obj1.GenreSelected(ggenre)) {
         cout << "YES2!Selected" << endl;
-        // f_obj1.GetGenre(); // � ��� ���� ������ � ��� ���������
     }
     else {
         cout << "NO2" << endl;
@@ -365,24 +315,47 @@ int main() {
     string m1_genres[] = {"Action", "Thriller"};
     int len1 = sizeof(m1_genres)/sizeof(m1_genres[0]);
     Movie m1("Fight Club", "Very intense", m1_genres, len1, "Film", 4.7);
-    m1.show();
+    //m1.show();
 
     string m2_genres[] = {"Musicals", "Comedy", "Romance"};
     int len2 = sizeof(m2_genres)/sizeof(m2_genres[0]);
     Movie m2("Mamma Mia", "With ABBA songs", m2_genres, len2, "Film", 4.5);
-    m2.show();
+    //m2.show();
 
     string m3_genres[] = {"Comedy"};
     int len3 = sizeof(m3_genres)/sizeof(m3_genres[0]);
-    Series m3("Office", "Very funny", m3_genres, len3, "Series", 4.8, 9);
-    m3.show();
+    Series m3("Office", "Very fuuny", m3_genres, len3, "Series", 4.8, 9);
+    //m3.show();
 
     MovieList mlist;
-    mlist.AddMovie(m1);
-    mlist.AddMovie(m2);
-    mlist.AddMovie(m3);
-    //
-    Generation g;
+    mlist(m1); mlist(m2); mlist(m3);
+//    mlist.AddMovie(m1);
+//    mlist.AddMovie(m2);
+//    mlist.AddMovie(m3);
+  cout<<"==================================================================="<<endl;
+   if(m1==f_obj1) {
+       //m1.show();
+       Generation g(m1);
+       g.show();
+       cout<<"\nRate the movie"<<endl;
+       cin>>rate;   //перетворення типу можна зробити та після записати у клас Муві/Мувіліст
+   }
+   if(m2==f_obj1){
+       Generation g(m2);
+       g.show();
+   }
+   if(m3==f_obj1) {
+       //cout << "Generated film - " << m3.title << endl;
+       Generation g(m3);
+       g.show();
+   }
+
+   cout<<"Do you want to enter filters again?(Enter 1)"<<endl;
+   cin>>temp;
+   if(temp==1) goto AGAIN;
+
+
+  /*  Generation g;
     g.show();
     cout<<"====Generation from Movie"<<endl;
     Generation g4(m2);
@@ -390,12 +363,26 @@ int main() {
     Generation g5(g4);
     g5.show();
 
-    Generation g;
-    g.show();
-    cout<<"====Generation from Movie"<<endl;
-    Generation g4(m2);
-    g4.show();
-    Generation g5(g4);
-    g5.show();
+    User u;
+    u.show2();
+    User u1("Matilda", "matilda@gmail.com", "ma123", g);
+    u1.show2();
+    u1.setName("lera");
+    User u2(u1);
+    u2.show2();
+    cout<<"=================="<<endl;
+    u1.~User();
+    /*
+      string genres[] = { "Action", "Fantasy" };
+      int kot = sizeof(genres) / sizeof(genres[0]);
+      Generation g1("The hunger games", "Very interesting", genres, kot, "Film", 4.7);
+      g1.show();
+      string genres_[] = { "Adventure", "Fantasy" };
+      int kot1 = sizeof(genres_) / sizeof(genres_[0]);
+      g1.setResult("Pirates of the Caribbean", "Very interesting", genres_, kot1, "Film", 4.5);
+      Generation g2(g1);
+      g2.show();
+      */
+    return 0;
 }
 
