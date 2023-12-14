@@ -34,7 +34,7 @@ public:
 };
 
 class Movie {
-protected:
+public:
     string title;
     string description;
     string *genre;
@@ -93,6 +93,7 @@ public:
     Movie getResult() const;
     Generation& setResult(string _title_, string _description_, string _genre_[], int len_, string _type_, float _rating_);
     void show();
+   friend bool operator ==(const Movie&, const Filters&);
 };
 
 class User {
