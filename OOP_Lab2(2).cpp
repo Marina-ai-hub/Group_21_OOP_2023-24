@@ -317,7 +317,7 @@ int main() {
     Movie m5("Pirates of the Caribbean", "Very interesting", m5_genres, len5, "Film", 4.5);
 
     MovieList mlist;
-    mlist(m1); mlist(m2); mlist(m3);
+    mlist(m1); mlist(m2); mlist(m3); mlist(m4); mlist(m5);
 //    mlist.AddMovie(m1);
 //    mlist.AddMovie(m2);
 //    mlist.AddMovie(m3);
