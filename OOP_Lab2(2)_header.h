@@ -57,6 +57,7 @@ public:
     Movie& setRating(float _rating);
     virtual ~Movie();
     virtual void show();
+    Movie& operator += (const string& _comment);
 };
 
 class Series: public Movie {
@@ -79,6 +80,9 @@ public:
 //        movie_list.push_back(movie);
 //    }
     Movie& operator()(Movie&);
+    MovieList& operator()(Movie&);
+    Movie& operator[](int);
+   // MovieList operator + (const MovieList& el);
 };
 
 class Generation {
