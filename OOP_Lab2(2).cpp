@@ -166,6 +166,15 @@ MovieList:: MovieList(){};
 Movie& MovieList::operator()(Movie& movie) {
     movie_list.push_back(movie);
 };
+Movie& MovieList:: operator[](int index){
+    if (index>0 && index<=5){
+        return movie_list[index-1];}
+};
+//MovieList MovieList:: operator + (const MovieList& el){  //я хотіла зробити це mlist(m1)+mlist(m2)
+//    MovieList temp;
+//    temp.movie_list=movie_list + el.movie_list;
+//    return temp;
+//}
 
 //class Generation
 Generation::Generation() {}
@@ -252,7 +261,11 @@ bool operator ==(const Movie& m_el, const Filters& f_el){
     }
     return false;
 };
-
+Movie& Movie:: operator += (const string& _comment){
+    description+=' ';
+    description+=_comment;
+    return *this;
+}
 int main() {
     int temp;
     float rate;
@@ -295,6 +308,13 @@ int main() {
     int len3 = sizeof(m3_genres)/sizeof(m3_genres[0]);
     Series m3("Office", "Very fuuny", m3_genres, len3, "Series", 4.8, 9);
     //m3.show();
+    string m4_genres[] = { "Action", "Fantasy" };
+    int len4 = sizeof(m4_genres) / sizeof(m4_genres[0]);
+    Movie m4("The hunger games", "Very interesting", m4_genres, len4, "Film", 4.7);
+
+    string m5_genres[] = { "Adventure", "Fantasy" };
+    int len5 = sizeof(m5_genres) / sizeof(m5_genres[0]);
+    Movie m5("Pirates of the Caribbean", "Very interesting", m5_genres, len5, "Film", 4.5);
 
     MovieList mlist;
     mlist(m1); mlist(m2); mlist(m3);
@@ -302,26 +322,16 @@ int main() {
 //    mlist.AddMovie(m2);
 //    mlist.AddMovie(m3);
     cout<<"==================================================================="<<endl;
-    if(m1==f_obj1) {
-        //m1.show();
-        Generation g(m1);
-        g.show();
-        cout<<"\nRate the movie"<<endl;
-        cin>>rate;   //перетворення типу можна зробити та після записати у клас Муві/Мувіліст
-    }
-    if(m2==f_obj1){
-        Generation g(m2);
-        g.show();
-    }
-    if(m3==f_obj1) {
-        //cout << "Generated film - " << m3.title << endl;
-        Generation g(m3);
-        g.show();
-    }
-
-    cout<<"Do you want to enter filters again?(Enter 1)"<<endl;
-    cin>>temp;
-    if(temp==1) goto AGAIN;
+      cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
+    cin>>index;
+    Movie& movie = mlist[index];
+    movie.show();
+    //cout<<"==================================================================="<<endl;
+    string comment;
+    cout<<"Enter comment to the chosen film"<<endl;
+    cin>>comment;
+    movie+=comment;
+    movie.show();
 
 
     /*  Generation g;
