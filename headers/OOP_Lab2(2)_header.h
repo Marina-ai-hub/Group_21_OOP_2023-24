@@ -3,6 +3,7 @@
 #include <string.h>
 #include <algorithm>
 #include <vector>
+#include "Movie_header.h"
 
 using namespace std;
 #define MAX_LEN 100
@@ -33,43 +34,7 @@ public:
     friend istream& operator >> (istream&, Filters&);
 };
 
-class Movie {
-protected:
-    string title;
-    string description;
-    string *genre;
-    int genre_len;
-    string type;
-    float rating;
-public:
-    Movie();
-    Movie(string _title, string _description, string _genre[], int len, string _type, float _rating);
-    Movie(const Movie& copy);
-    string getTitle() const;
-    string getDescription() const;
-    string getGenre() const;
-    string getType() const;
-    float getRating() const;
-    Movie& setTitle(string _title);
-    Movie& setDescription(string _description);
-    Movie& setGenre(string _genre[], int len);
-    Movie& setType(string _type);
-    Movie& setRating(float _rating);
-    virtual ~Movie();
-    virtual void show();
-};
 
-class Series: public Movie {
-    int seasons;
-public:
-    Series();
-    Series(string _title, string _description, string _genre[], int len, string _type, float _rating, int _seasons);
-    Series(const Series& copy);
-    int getSeasons() const;
-    Series& setSeasons(int _seasons);
-    ~Series();
-    void show();
-};
 
 class MovieList {
     vector<Movie> movie_list;
@@ -78,7 +43,10 @@ public:
 //    void AddMovie(const Movie& movie) {
 //        movie_list.push_back(movie);
 //    }
-    Movie& operator()(Movie&);
+    void operator()(Movie&);
+    //MovieList& operator()(Movie&);
+    Movie& operator[](int);
+    MovieList operator + (const MovieList& other) const;
 };
 
 class Generation {
