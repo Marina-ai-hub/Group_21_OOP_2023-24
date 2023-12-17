@@ -77,7 +77,7 @@ bool Filters:: GenreSelected(const string& _genre) const{
 
 //class MovieList
 MovieList:: MovieList(){};
-void MovieList::operator()(Movie& movie) {
+void MovieList::operator()(Movie* movie) {
     movie_list.push_back(movie);
 };
 /*Movie& MovieList:: operator[](int index){
@@ -180,29 +180,26 @@ istream& operator >> (istream&is, Filters&f){
     is >> f.genre;
     return is;
 }
-bool operator ==(const Movie& m_el, const Filters& f_el){
-    if(m_el.type == f_el.type) {
-        for (int i = 0; i < m_el.genre_len; i++) {
-            if ((m_el.genre[i] == f_el.genre))
-                return true;
-        }
-    }
+bool operator ==(const User& u1, const User& u2) {
+    if(u1.name==u2.name) return true;
     return false;
 };
-/*Movie& Movie:: operator += (const string& _comment){
-    description+=' ';
-    description+=_comment;
-    return *this;
-}*/
+bool operator !=(const User& u1, const User& u2){
+    return !(u1.name==u2.name);
+};
+
 
 int main() {
-
-    //check filters
+    //static
     /*int temp;
     float rate;
     Filters f;
     f.ShowFilters();
+    
+    //check filters
     string ggenre, ttype;
+
+    //operator >>
     AGAIN: cout << "\nPlease select (TYPE):";
     cin>>ttype;                      //getline(cin, ttype);
     cout << "Please select (GENRE):";
@@ -267,18 +264,20 @@ int main() {
     --m3;
     m3.show();
 
-
+    cout<<"=========  operator << ========"<<endl;
     //operator <<
     cout << m4 << endl;
 
 
     //operator from string to Movie
+    cout<<"=========  operator from string to Movie ========"<<endl;
     string movie_title = "You've got mail";
     Movie movie_from_title = Movie(movie_title);
     cout << movie_from_title << endl;
 
 
     //operator from Movie to map
+    cout<<"=========  operator from Movie to map ========"<<endl;
     map<string, string> movieMap = m1;
     auto it = movieMap.begin();
     while (it != movieMap.end()) {
@@ -304,15 +303,34 @@ int main() {
 
 
     //operator []
-    /*cout<<"==================================================================="<<endl;
+    cout<<"==================================================================="<<endl;
     cout<<"Enter movie's index you would like to see (from 0 to 4)"<<endl;
     int index;
     cin>>index;
-    Movie& movie = mlist[index];
-    movie.show();*/
+    Movie* movie = allmlist[index];
+    movie->show();
+
+    //virtual method show()
+   cout<<"====== virtual method show() ========"<<endl;
+//   for(int i=0; i<5; i++){
+//       allmlist[i]->show();
+//   }
+
+    //operator ==
+    cout<<"=======( operator == )=========="<<endl;
+     string name;
+     const User u("anonim001", "anonim@gmail.com", "anonim123");
+     cout<<"Enter (user name)"<<endl;
+     cin>>name;
+    User u1(name,"matilda@gmail.com", "ma123");
+    if(u==u1) cout<<"This user name already exists"<<endl;
+    else cout<<"Thank you for the authorization"<<endl;
 
 
-    //operator += (думаю, можна забрати)
+ 
+
+    
+    //operator += (думаю, можна забрати) - так
     //cout<<"==================================================================="<<endl;
     //string comment;
     //cout<<"Enter comment to the chosen film"<<endl;
