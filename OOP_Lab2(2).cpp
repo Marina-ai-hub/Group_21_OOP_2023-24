@@ -287,7 +287,7 @@ int main() {
     }
 
 
-    //operator +
+    //operator ()
     MovieList mlist;
     mlist(m1); mlist(m2); mlist(m3);
     //    mlist.AddMovie(m1);
@@ -296,7 +296,7 @@ int main() {
 
     MovieList mlist1;
     mlist1(m4); mlist1(m5);
-
+    //operator +
     MovieList allmlist = mlist + mlist1;
     //for (int i = 0; i<5; i++){
     //    allmlist[i].show();
