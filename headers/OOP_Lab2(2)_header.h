@@ -37,15 +37,14 @@ public:
 
 
 class MovieList {
-    vector<Movie> movie_list;
+    vector<Movie*> movie_list;
 public:
     MovieList();
 //    void AddMovie(const Movie& movie) {
 //        movie_list.push_back(movie);
 //    }
-    void operator()(Movie&);
-    //MovieList& operator()(Movie&);
-    Movie& operator[](int);
+    void operator()(Movie*);
+    Movie* operator[](int);
     MovieList operator + (const MovieList& other) const;
 };
 
@@ -82,4 +81,6 @@ public:
     Generation getResult() const;
     User& setResult(Generation _result);
     void show();
+    friend bool operator ==(const User& u1, const User& u2);
+    friend bool operator !=(const User& u1, const User& u2);
 };
