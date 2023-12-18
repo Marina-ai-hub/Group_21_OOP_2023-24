@@ -59,8 +59,3 @@ bool Filters:: GenreSelected(const string& _genre) const{
     }
     return false;
 };
-istream& operator >> (istream&is, Filters&f){
-    is >> f.type;
-    is >> f.genre;
-    return is;
-}
