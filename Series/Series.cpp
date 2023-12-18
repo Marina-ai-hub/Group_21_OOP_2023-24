@@ -18,6 +18,13 @@ Series& Series:: setSeasons(int _seasons){
 }
 Series:: ~Series(){};
 void Series:: show() const{
-    Movie::show();
+    cout << "\n Title : " << title << endl;
+    cout << " Description : " << description << endl;
+    for (int i = 0; i < genre_len; i++) {
+        if (genre != nullptr)
+            cout << " Genre[" << i + 1 << "] : " << genre[i] << endl;
+    }
+    cout << " Type : " << type << endl;
+    cout << " Rating : " << rating << endl;
     cout << " Seasons : "<< seasons << endl;
 }
