@@ -23,30 +23,31 @@ using namespace std;
 
 
 
-/*Movie& Movie:: operator += (const string& _comment){
-    description+=' ';
-    description+=_comment;
-    return *this;
-}*/
+
 
 int main() {
 
-    //check filters
-    /*int temp;
+    //static
+    int temp, index;
     float rate;
     Filters f;
     f.ShowFilters();
+
+    //check filters
     string ggenre, ttype;
-    AGAIN: cout << "\nPlease select (TYPE):";
+
+    //operator >>
+    cout << "\nPlease select (TYPE):";
     cin>>ttype;                      //getline(cin, ttype);
     cout << "Please select (GENRE):";
     cin>>ggenre;                    //getline(cin, ggenre);
-//    Filters f_obj0;
-//    f_obj0.Show();
     Filters f_obj1(ttype, ggenre);
     f_obj1.Show();
+    //operator <<
+    cout<<"=========  operator << ========"<<endl;
+    cout<<f_obj1<<endl;
 
-    if (f_obj1.TypeSelected(ttype)) {
+   /* if (f_obj1.TypeSelected(ttype)) {
         cout << "YES1!Selected" << endl;
     }
     else {
@@ -58,7 +59,6 @@ int main() {
     else {
         cout << "NO2" << endl;
     }*/
-
 
     //create movies
     string m1_genres[] = {"Action", "Thriller"};
@@ -83,7 +83,6 @@ int main() {
 
 
     //operator ++
-    cout << "=============== operator ++ for Movie ===============" << endl;
     m1.show(); //rating 3.7
     ++m1;
     m1.show();
@@ -92,9 +91,7 @@ int main() {
     ++m2;
     m2.show();
 
-
     //operator --
-    cout << "=============== operator -- for Movie ===============" << endl;
     m1.show(); //rating 3.7
     --m1;
     m1.show();
@@ -103,72 +100,62 @@ int main() {
     --m3;
     m3.show();
 
-
+    cout<<"=========  operator << ========"<<endl;
     //operator <<
-    cout << "=============== operator << for Movie ===============" << endl;
     cout << m4 << endl;
 
-
     //operator from string to Movie
-    cout << "=============== operator from string to Movie ===============" << endl;
-    string movie_title = "You've got mail";
-    Movie movie_from_title = Movie(movie_title);
-    cout << movie_from_title << endl;
+      cout<<"=========  operator from string to Movie ========"<<endl;
+      string movie_title = "You've got mail";
+      Movie movie_from_title = Movie(movie_title);
+      cout << movie_from_title << endl;
 
+      //operator from Movie to map
+    cout<<"=========  operator from Movie to map ========"<<endl;
+      map<string, string> movieMap = m1;
+      auto it = movieMap.begin();
+      while (it != movieMap.end()) {
+          cout << "Key: " << it->first << ", Value: " << it->second << endl;
+          ++it;
+      }
 
-    //operator from Movie to map
-    cout << "=============== operator from Movie to map ===============" << endl;
-    cout << endl;
-    map<string, string> movieMap = m1;
-    auto it = movieMap.begin();
-    while (it != movieMap.end()) {
-        cout << "Key: " << it->first << ", Value: " << it->second << endl;
-        ++it;
-    }
-    cout << endl;
-
-
-
-    //operator +
-    cout << "=============== operator + for MovieList  ===============" << endl;
+    //operator ()
     MovieList mlist;
     mlist(&m1); mlist(&m2); mlist(&m3);
-    //    mlist.AddMovie(m1);
-    //    mlist.AddMovie(m2);
-    //    mlist.AddMovie(m3);
-
     MovieList mlist1;
     mlist1(&m4); mlist1(&m5);
 
+    //operator +
+    cout<<"======= operator + for MovieList =========="<<endl;
     MovieList allmlist = mlist + mlist1;
-    cout << "allmlist:";
+//    for (int i = 0; i<5; i++){
+//        allmlist[i]->show();
+//    }
 
-    //virtual method show()
-    cout << "=============== virtual method show()  ===============" << endl;
-    for (int i = 0; i<5; i++){
-        allmlist[i]->show();
-    }
-
-
+    cout<<"==================================================================="<<endl;
     //operator []
-    cout << "=============== operator [] for MovieList  ===============" << endl;
-    cout<<"Enter movie's index you would like to see (from 0 to 4)"<<endl;
-    int index;
+    cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
     cin>>index;
-    Movie* movie = mlist[index];
+    Movie* movie = allmlist[index];
     movie->show();
+
+   //virtual method show()
+     cout<<"====== virtual method show() ========"<<endl;
+//   for(int i=0; i<5; i++){
+//       allmlist[i]->show();
+//   }
+    showMovies(allmlist.movie_list,5);
 
 
     //operator ==
-    cout<<"=============== operator == for User  ==============="<<endl;
-    string name;
-    const User u("anonim001", "anonim@gmail.com", "anonim123");
-    cout<<"Enter (user name)"<<endl;
-    cin>>name;
+    cout<<"=======( operator == )=========="<<endl;
+     string name;
+     const User u("anonim01", "anonim@gmail.com", "anonim123");
+     cout<<"Enter (user name)"<<endl;
+     cin>>name;
     User u1(name,"matilda@gmail.com", "ma123");
     if(u==u1) cout<<"This user name already exists"<<endl;
     else cout<<"Thank you for the authorization"<<endl;
-
 
     //generation and user
     /*  Generation g;
