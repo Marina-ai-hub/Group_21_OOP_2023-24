@@ -96,19 +96,6 @@ Movie& Movie:: operator--() {
     };
     return *this;
 }
-ostream& operator<<(std::ostream& out, const Movie& movie) {
-    out << "\nTitle: " << movie.title << "\n"
-        << "Description: " << movie.description << "\n"
-        << "Genre: ";
-    for (int i = 0; i < movie.genre_len; i++) {
-        out << movie.genre[i];
-        if (i != movie.genre_len - 1) {
-            out << ", ";
-        }
-    }
-    out << "\nType: " << movie.type << "\nRating: " << movie.rating << std::endl;
-    return out;
-}
 Movie:: Movie(const string& _title){
     title = _title;
     description = "";
