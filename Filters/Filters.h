@@ -31,6 +31,7 @@ public:
     bool TypeSelected(const string& _type) const;
     bool GenreSelected(const string& _genre) const;
     friend istream& operator >> (istream&, Filters&);
+    friend ostream& operator << (ostream&, Filters&);
 };
 
 
