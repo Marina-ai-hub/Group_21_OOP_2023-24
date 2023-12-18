@@ -22,7 +22,28 @@ using namespace std;
 #define MAX_GENRE_LEN 11
 
 
+istream& operator >> (istream&is, Filters&f){
+    is >> f.type;
+    is >> f.genre;
+    return is;
+}
+ostream& operator << (ostream& os, Filters&f){
+    os<<"Selected filters: (type) - " << f.type << " " << "(genre) - " << f.genre;
+    return os;
+};
+bool operator ==(const User& u1, const User& u2) {
+    if(u1.name==u2.name) return true;
+    return false;
+};
+bool operator !=(const User& u1, const User& u2){
+    return !(u1.name==u2.name);
+};
 
+void showMovies(const vector<Movie*> movies, int size){
+    for (int i=0; i<size; i++){
+        movies[i]->show();
+    }
+}
 
 
 int main() {
