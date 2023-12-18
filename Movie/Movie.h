@@ -1,9 +1,7 @@
-#ifndef Movie_header
-#define Movie_header
+#ifndef GROUP_21_OOP_2023_24_MOVIE_H
+#define GROUP_21_OOP_2023_24_MOVIE_H
 
-#include <iostream>
 #include <string>
-#include <string.h>
 #include <map>
 
 using namespace std;
@@ -31,12 +29,12 @@ public:
     Movie& setType(string _type);
     Movie& setRating(float _rating);
     virtual ~Movie();
-    virtual void show();
+    virtual void show() const;
     Movie& operator++();
     Movie& operator--();
     friend ostream& operator<<(std::ostream& os, const Movie& movie);
     Movie(const string& _title);
-    operator map<std::string, std::string>() const;
+    operator map<string, string>() const;
 };
 
-#endif //Movie_header
+#endif //GROUP_21_OOP_2023_24_MOVIE_H

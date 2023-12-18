@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../headers/Series_header.h"
+#include "Series.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ Series& Series:: setSeasons(int _seasons){
     return *this;
 }
 Series:: ~Series(){};
-void Series:: show(){
+void Series:: show() const{
     Movie::show();
     cout << " Seasons : "<< seasons << endl;
 }

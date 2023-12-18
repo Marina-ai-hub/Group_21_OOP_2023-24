@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
-#include <string.h>
 #include <map>
-#include "../headers/Movie_header.h"
+#include "Movie.h"
 
 using namespace std;
 
@@ -71,7 +70,7 @@ Movie& Movie:: setRating(float _rating){
     return *this;
 }
 Movie:: ~Movie(){};
-void Movie:: show() {
+void Movie:: show() const{
     cout << "\n Title : " << title << endl;
     cout << " Description : " << description << endl;
     for (int i = 0; i < genre_len; i++) {

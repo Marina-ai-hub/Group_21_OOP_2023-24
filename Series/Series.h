@@ -1,10 +1,10 @@
-#ifndef Series_header
-#define Series_header
+#ifndef GROUP_21_OOP_2023_24_SERIES_H
+#define GROUP_21_OOP_2023_24_SERIES_H
 
 #include <iostream>
 #include <string>
 #include <string.h>
-#include "Movie_header.h"
+#include "../Movie/Movie.h"
 
 using namespace std;
 
@@ -18,7 +18,7 @@ public:
     int getSeasons() const;
     Series& setSeasons(int _seasons);
     ~Series();
-    void show();
+    void show() const;
 };
 
-#endif //Series_header
+#endif //GROUP_21_OOP_2023_24_SERIES_H
