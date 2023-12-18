@@ -47,10 +47,3 @@ void User::show() {
     result.show();
     cout << endl;
 }
-bool operator ==(const User& u1, const User& u2) {
-    if(u1.name==u2.name) return true;
-    return false;
-};
-bool operator !=(const User& u1, const User& u2){
-    return !(u1.name==u2.name);
-};
