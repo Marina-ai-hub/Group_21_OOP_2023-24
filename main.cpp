@@ -31,6 +31,19 @@ ostream& operator << (ostream& os, Filters&f){
     os<<"Selected filters: (type) - " << f.type << " " << "(genre) - " << f.genre;
     return os;
 };
+ostream& operator<<(ostream& out, const Movie& movie) {
+    out << "\nTitle: " << movie.title << "\n"
+        << "Description: " << movie.description << "\n"
+        << "Genre: ";
+    for (int i = 0; i < movie.genre_len; i++) {
+        out << movie.genre[i];
+        if (i != movie.genre_len - 1) {
+            out << ", ";
+        }
+    }
+    out << "\nType: " << movie.type << "\nRating: " << movie.rating << std::endl;
+    return out;
+}
 bool operator ==(const User& u1, const User& u2) {
     if(u1.name==u2.name) return true;
     return false;
