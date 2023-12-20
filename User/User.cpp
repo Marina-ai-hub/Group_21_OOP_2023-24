@@ -47,3 +47,10 @@ void User::show() {
     result.show();
     cout << endl;
 }
+bool User:: operator ==(const User& u) const{
+    if(name==u.name) return true;
+    return false;
+};
+bool User:: operator !=(const User& u1) const{
+    return !(*this==u1);
+};
