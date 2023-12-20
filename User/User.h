@@ -22,8 +22,8 @@ public:
     Generation getResult() const;
     User& setResult(Generation _result);
     void show();
-    friend bool operator ==(const User& u1, const User& u2);
-    friend bool operator !=(const User& u1, const User& u2);
+     bool operator ==(const User& u) const;
+     bool operator !=(const User& u) const;
 };
 
 
