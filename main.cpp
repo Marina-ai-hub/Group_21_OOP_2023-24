@@ -44,14 +44,6 @@ ostream& operator<<(ostream& out, const Movie& movie) {
     out << "\nType: " << movie.type << "\nRating: " << movie.rating << std::endl;
     return out;
 }
-bool User:: operator ==(const User& u) const{
-    if(name==u.name) return true;
-    return false;
-};
-bool User:: operator !=(const User& u1) const{
-    return !(*this==u1);
-};
-
 void showMovies(const vector<Movie*> movies, int size){
     for (int i=0; i<size; i++){
         movies[i]->show();
