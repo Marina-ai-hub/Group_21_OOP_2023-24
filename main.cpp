@@ -44,12 +44,12 @@ ostream& operator<<(ostream& out, const Movie& movie) {
     out << "\nType: " << movie.type << "\nRating: " << movie.rating << std::endl;
     return out;
 }
-bool operator ==(const User& u1, const User& u2) {
-    if(u1.name==u2.name) return true;
+bool User:: operator ==(const User& u) const{
+    if(name==u.name) return true;
     return false;
 };
-bool operator !=(const User& u1, const User& u2){
-    return !(u1.name==u2.name);
+bool User:: operator !=(const User& u1) const{
+    return !(*this==u1);
 };
 
 void showMovies(const vector<Movie*> movies, int size){
@@ -65,7 +65,7 @@ int main() {
     int temp, index;
     float rate;
     Filters f;
-    f.ShowFilters();
+    Filters:: ShowFilters();
 
     //check filters
     string ggenre, ttype;
@@ -183,13 +183,14 @@ int main() {
 
     //operator ==
     cout<<"=======( operator == )=========="<<endl;
-     string name;
+      string name;
      const User u("anonim01", "anonim@gmail.com", "anonim123");
      cout<<"Enter (user name)"<<endl;
      cin>>name;
     User u1(name,"matilda@gmail.com", "ma123");
-    if(u==u1) cout<<"This user name already exists"<<endl;
+    if(u1==u) cout<<"This user name already exists"<<endl;
     else cout<<"Thank you for the authorization"<<endl;
+
 
     //generation and user
     /*  Generation g;
