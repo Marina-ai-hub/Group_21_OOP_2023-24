@@ -24,3 +24,10 @@ void Generation ::show() {
     result.show();
     cout << endl;
 }
+const Generation& Generation:: operator=(const Generation& other) {
+    if (this == &other) {
+        return *this;
+    }
+    result = other.result;
+    return *this;
+}
