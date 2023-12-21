@@ -44,11 +44,6 @@ ostream& operator<<(ostream& out, const Movie& movie) {
     out << "\nType: " << movie.type << "\nRating: " << movie.rating << std::endl;
     return out;
 }
-void showMovies(const vector<Movie*> movies, int size){
-    for (int i=0; i<size; i++){
-        movies[i]->show();
-    }
-}
 
 
 int main() {
@@ -152,6 +147,7 @@ int main() {
     mlist(&m1); mlist(&m2); mlist(&m3);
     MovieList mlist1;
     mlist1(&m4); mlist1(&m5);
+    mlist.showMovies(3);
 
     //operator +
     cout<<"======= operator + for MovieList =========="<<endl;
@@ -172,7 +168,7 @@ int main() {
 //   for(int i=0; i<5; i++){
 //       allmlist[i]->show();
 //   }
-    showMovies(allmlist.movie_list,5);
+    allmlist.showMovies(5);
 
 
     //operator ==
