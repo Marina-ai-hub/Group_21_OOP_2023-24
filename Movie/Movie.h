@@ -31,7 +31,9 @@ public:
     virtual ~Movie();
     virtual void show() const;
     Movie& operator++();
+    Movie operator++(int);
     Movie& operator--();
+    Movie operator--(int);
     friend ostream& operator<<(std::ostream& os, const Movie& movie);
     Movie(const string& _title);
     operator map<string, string>() const;
