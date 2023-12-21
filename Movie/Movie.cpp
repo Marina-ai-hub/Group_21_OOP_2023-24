@@ -85,12 +85,16 @@ Movie& Movie:: operator++() {
     if (rating > 5){
         cout << "cannot increment, rating > 5";
         rating--;
-    };
+    }
     return *this;
 }
 Movie Movie:: operator++(int i) {
     Movie temp = *this;
-    Movie:: operator++();
+    rating++;
+    if (rating > 5) {
+        cout << "cannot increment, rating > 5";
+        rating--;
+    }
     return temp;
 }
 Movie& Movie:: operator--() {
@@ -98,12 +102,16 @@ Movie& Movie:: operator--() {
     if (rating < 0) {
         cout << "cannot decrement, rating < 0";
         rating++;
-    };
+    }
     return *this;
 }
 Movie Movie:: operator--(int i) {
     Movie temp = *this;
-    Movie:: operator--();
+    rating--;
+    if (rating < 0) {
+        cout << "cannot decrement, rating < 0";
+        rating++;
+    }
     return temp;
 }
 Movie:: Movie(const string& _title){
