@@ -88,6 +88,11 @@ Movie& Movie:: operator++() {
     };
     return *this;
 }
+Movie Movie:: operator++(int i) {
+    Movie temp = *this;
+    Movie:: operator++();
+    return temp;
+}
 Movie& Movie:: operator--() {
     rating--;
     if (rating < 0) {
@@ -95,6 +100,11 @@ Movie& Movie:: operator--() {
         rating++;
     };
     return *this;
+}
+Movie Movie:: operator--(int i) {
+    Movie temp = *this;
+    Movie:: operator--();
+    return temp;
 }
 Movie:: Movie(const string& _title){
     title = _title;
