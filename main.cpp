@@ -183,6 +183,17 @@ int main() {
     if(u1==u) cout<<"This user name already exists"<<endl;
     else cout<<"Thank you for the authorization"<<endl;
 
+    //operator =
+    cout << "=======( operator = )==========" << endl;
+    Generation g;
+    g.show();
+    cout << "====Generation from Movie" << endl;
+    Generation g4(m1);
+    g4.show();
+    //Generation g5(g4);
+    //g5.show();
+    g = g4;
+    g.show();
 
     //generation and user
     /*  Generation g;
