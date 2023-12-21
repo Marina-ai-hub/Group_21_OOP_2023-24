@@ -13,6 +13,7 @@ public:
     //MovieList& operator()(Movie&);
     Movie* operator[](int);
     MovieList operator + (const MovieList& other) const;
+    void showMovies(int) const;
 };
 
 
