@@ -27,7 +27,7 @@ istream& operator >> (istream&is, Filters&f){
     is >> f.genre;
     return is;
 }
-ostream& operator << (ostream& os, Filters&f){
+ostream& operator << (ostream& os, const Filters&f){
     os<<"Selected filters: (type) - " << f.type << " " << "(genre) - " << f.genre;
     return os;
 };
@@ -109,24 +109,26 @@ int main() {
 
 
     //operator ++
-    m1.show(); //rating 3.7
-    ++m1;
+    cout<<"=========  operator ++ postfix for Movie ========"<<endl;
+    m1++.show(); //rating 3.7
     m1.show();
 
+    cout<<"=========  operator ++ prefix for Movie ========"<<endl;
     m2.show(); //rating 4.5
     ++m2;
     m2.show();
 
     //operator --
-    m1.show(); //rating 3.7
-    --m1;
+    cout<<"=========  operator -- postfix for Movie ========"<<endl;
+    m1--.show(); //rating 3.7
     m1.show();
 
+    cout<<"=========  operator -- prefix for Movie ========"<<endl;
     m3.show(); //rating 0.8
     --m3;
     m3.show();
 
-    cout<<"=========  operator << ========"<<endl;
+    cout<<"=========  operator << for Movie ========"<<endl;
     //operator <<
     cout << m4 << endl;
 
