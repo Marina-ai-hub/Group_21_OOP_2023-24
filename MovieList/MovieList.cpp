@@ -14,3 +14,8 @@ MovieList MovieList:: operator+(const MovieList& other) const {
 
     return result;
 }
+void MovieList:: showMovies(int size) const{
+    for (int i=0; i<size; i++){
+        movie_list[i]->show();
+    }
+}
