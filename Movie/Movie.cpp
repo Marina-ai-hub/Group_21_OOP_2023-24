@@ -90,11 +90,7 @@ Movie& Movie:: operator++() {
 }
 Movie Movie:: operator++(int i) {
     Movie temp = *this;
-    rating++;
-    if (rating > 5) {
-        cout << "cannot increment, rating > 5";
-        rating--;
-    }
+    ++(*this);
     return temp;
 }
 Movie& Movie:: operator--() {
@@ -107,11 +103,7 @@ Movie& Movie:: operator--() {
 }
 Movie Movie:: operator--(int i) {
     Movie temp = *this;
-    rating--;
-    if (rating < 0) {
-        cout << "cannot decrement, rating < 0";
-        rating++;
-    }
+    --(*this);
     return temp;
 }
 Movie:: Movie(const string& _title){
