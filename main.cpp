@@ -45,9 +45,122 @@ ostream& operator<<(ostream& out, const Movie& movie) {
     return out;
 }
 
+template <class T1,class T2>
+class Rate{
+//    string res_title;
+//    float res_rating;
+    T1 title;
+    T2 rating;
+public:
+    Rate<T1,T2>();
+    Rate<T1,T2>(const  Rate&);
+    Rate<T1,T2>(T1 _title, T2 _rating);
+    ~Rate<T1,T2>(){};
+  // friend ostream& operator << (ostream& os, const Rate<T1,T2>&);
+    void show();
+    Rate<T1,T2>& operator--();
+    Rate<T1,T2>& operator++();
+};
+template <class T1,class T2>
+    Rate<T1,T2>:: Rate(){
+    title="no movie";
+    rating=0.0;
+};
+template <class T1,class T2>
+Rate<T1,T2>:: Rate(const  Rate& copy): title(copy.title), rating( copy.rating){};
+
+template <class T1,class T2>
+Rate<T1,T2>:: Rate(T1 _title, T2 _rating): title(_title),rating( _rating){};
+
+template <class T1,class T2>
+void Rate<T1,T2>:: show(){
+    cout<<"Your rated movie: (title) - " << title << " " << "(rating) - " << rating <<endl;
+}
+
+template <class T1,class T2>
+Rate<T1,T2>& Rate<T1,T2>:: operator--() {
+    rating--;
+    if (rating < 0) {
+        cout << "cannot decrement, rating < 0"<<endl;
+        rating++;
+    };
+    return *this;
+}
+template <class T1,class T2>
+Rate<T1,T2>& Rate<T1,T2>:: operator++() {
+    rating++;
+    if (rating > 5){
+        cout << "cannot increment, rating > 5"<<endl;
+        rating--;
+    };
+    return *this;
+}
 
 int main() {
+    int temp, index; 
+    string tmp;
+    //create movies
+    string m1_genres[] = {"Action", "Thriller"};
+    int len1 = sizeof(m1_genres)/sizeof(m1_genres[0]);
+    Movie m1("Fight Club", "Very intense", m1_genres, len1, "Film", 3.7);
 
+    string m2_genres[] = {"Musicals", "Comedy", "Romance"};
+    int len2 = sizeof(m2_genres)/sizeof(m2_genres[0]);
+    Movie m2("Mamma Mia", "With ABBA songs", m2_genres, len2, "Film", 4.5);
+
+    string m3_genres[] = {"Comedy"};
+    int len3 = sizeof(m3_genres)/sizeof(m3_genres[0]);
+    Series m3("Office", "Very funny", m3_genres, len3, "Series", 0.8, 9);
+
+    string m4_genres[] = { "Action", "Fantasy" };
+    int len4 = sizeof(m4_genres) / sizeof(m4_genres[0]);
+    Movie m4("The hunger games", "Very interesting", m4_genres, len4, "Film", 4.7);
+
+    string m5_genres[] = { "Adventure", "Fantasy" };
+    int len5 = sizeof(m5_genres) / sizeof(m5_genres[0]);
+    Movie m5("Pirates of the Caribbean", "Very interesting", m5_genres, len5, "Film", 4.5);
+    //operator ()
+    MovieList mlist;
+    mlist(&m1); mlist(&m2); mlist(&m3);
+    MovieList mlist1;
+    mlist1(&m4); mlist1(&m5);
+    //operator +
+  // cout<<"======= operator + for MovieList =========="<<endl;
+    MovieList allmlist = mlist + mlist1;
+  //operator []
+   cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
+    cin>>index;
+    Movie* movie = allmlist[index];
+
+    
+    cout<<"======= template class ======="<<endl;
+    Rate<string,float> r0;
+    Rate r1( "Fight Club", 4.8);  // неявне Rate<string,double>
+    Rate<string, int> r2(m2.getTitle(), m5.getRating());
+    Rate<string, double> r3(movie->getTitle(), movie->getRating());
+    //Rate<Movie, float> problem(movie->getTitle(), movie->getRating());
+    r0.show();
+    r1.show();
+    r2.show();
+    r3.show();
+    cout<<"==== Would you like to change rating of the"<<" "<<movie->getTitle()<<" "<<"?(0/1)"<<endl;
+    cin>>temp;
+    if(temp){
+        cout<<"++ or --"<<endl;
+        cin>>tmp;
+        if(tmp=="++"){ ++r3;
+//            cout<<"Continue?"<<" ";
+//            cin>>t;
+//            if (t) goto CONT;
+           }
+        else if(tmp=="--") {
+            --r3;
+        }
+        else cout<<"Incorrect value"<<endl;
+    }
+    r3.show();
+    
+/*
     //static
     int temp, index;
     float rate;
@@ -80,7 +193,7 @@ int main() {
     else {
         cout << "NO2" << endl;
     }*/
-
+/*
     //create movies
     string m1_genres[] = {"Action", "Thriller"};
     int len1 = sizeof(m1_genres)/sizeof(m1_genres[0]);
