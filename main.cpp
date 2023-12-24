@@ -56,10 +56,13 @@ public:
     Rate<T1,T2>(const  Rate&);
     Rate<T1,T2>(T1 _title, T2 _rating);
     ~Rate<T1,T2>(){};
-  // friend ostream& operator << (ostream& os, const Rate<T1,T2>&);
     void show();
     Rate<T1,T2>& operator--();
     Rate<T1,T2>& operator++();
+   friend ostream& operator << (ostream& os, const Rate<T1,T2>& obj){
+          os<<"Your rated movie: (title) - " <<obj.title << " " << "(rating) - " <<obj.rating <<endl;
+          return os;
+   };
 };
 template <class T1,class T2>
     Rate<T1,T2>:: Rate(){
@@ -139,10 +142,8 @@ int main() {
     Rate<string, int> r2(m2.getTitle(), m5.getRating());
     Rate<string, double> r3(movie->getTitle(), movie->getRating());
     //Rate<Movie, float> problem(movie->getTitle(), movie->getRating());
-    r0.show();
-    r1.show();
-    r2.show();
-    r3.show();
+    cout<<r0<<r1<<r2<<r3;
+   // r0.show(); r1.show(); r2.show(); r3.show();
     cout<<"==== Would you like to change rating of the"<<" "<<movie->getTitle()<<" "<<"?(0/1)"<<endl;
     cin>>temp;
     if(temp){
@@ -158,7 +159,7 @@ int main() {
         }
         else cout<<"Incorrect value"<<endl;
     }
-    r3.show();
+    cout<<r3;
     
 /*
     //static
