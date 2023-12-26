@@ -171,7 +171,7 @@ int main() {
     movie_list.push_back(&m5);
     for(const auto&elem: movie_list){
         cout<<"==movie: "<<*elem<<endl;
-    }//алгоритм стл
+    }//додати алгоритм стл
     
     cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
     cin>>index;
@@ -183,7 +183,7 @@ int main() {
     movie_container["Type"] = movie->getType();
     for(const auto&elem: movie_container){
         cout<<elem.first<<": "<<elem.second<<endl;
-      }//ітерування
+      }//змінити на зворотнє ітерування
     
     cout<<"\n======= template class ======="<<endl;
     Rate<string,float> r0;
