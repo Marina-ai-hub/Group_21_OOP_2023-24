@@ -145,23 +145,37 @@ int main() {
     int len5 = sizeof(m5_genres) / sizeof(m5_genres[0]);
     Movie m5("Pirates of the Caribbean", "Very interesting", m5_genres, len5, "Film", 4.5);
     
-   //operator ()
-    MovieList mlist;
-    mlist(&m1); mlist(&m2); mlist(&m3); mlist(&m4); mlist(&m5);
+   // //operator ()
+   //  MovieList mlist;
+   //  mlist(&m1); mlist(&m2); mlist(&m3); mlist(&m4); mlist(&m5);
+   //  vector<Movie> movie_list;
+   //  movie_list.push_back(m1);
+   //  movie_list.push_back(m2);
+   //  movie_list.push_back(m3);
+   //  movie_list.push_back(m4);
+   //  movie_list.push_back(m5);
+   //  for(const auto&elem: movie_list){
+   //      cout<<"==movie: "<<elem<<endl;
+   //  }//алгоритм стл
+   //   //operator []
+   // cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
+   //  cin>>index;
+   //  Movie* movie = mlist[index];
 
-    vector<Movie> movie_list;
-    movie_list.push_back(m1);
-    movie_list.push_back(m2);
-    movie_list.push_back(m3);
-    movie_list.push_back(m4);
-    movie_list.push_back(m5);
+    //все ж таки краще без використання перевантажених операторів, бо це виходить зайве ускладення та дублювання 
+    vector<Movie*> movie_list;
+    movie_list.push_back(&m1);
+    movie_list.push_back(&m2);
+    movie_list.push_back(&m3);
+    movie_list.push_back(&m4);
+    movie_list.push_back(&m5);
     for(const auto&elem: movie_list){
-        cout<<"==movie: "<<elem<<endl;
+        cout<<"==movie: "<<*elem<<endl;
     }//алгоритм стл
-     //operator []
-   cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
+    
+    cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
     cin>>index;
-    Movie* movie = mlist[index];
+    Movie* movie = movie_list[index-1];
     map<string,string> movie_container;
     movie_container["Title"] = movie->getTitle();
     movie_container["Description"] = movie->getDescription();
