@@ -56,13 +56,13 @@ public:
     Rate<T1,T2>(const  Rate&);
     Rate<T1,T2>(T1 _title, T2 _rating);
     ~Rate<T1,T2>(){};
-    void show();
-    Rate<T1,T2>& operator--();
-    Rate<T1,T2>& operator++();
    friend ostream& operator << (ostream& os, const Rate<T1,T2>& obj){
           os<<"Your rated movie: (title) - " <<obj.title << " " << "(rating) - " <<obj.rating <<endl;
-          return os;
-   };
+          return os;};
+    void show();
+    T1 getTitle() const;
+    T2 getRating() const;
+    void setNewRating(const float value);
 };
 template <class T1,class T2>
     Rate<T1,T2>:: Rate(){
@@ -81,26 +81,48 @@ void Rate<T1,T2>:: show(){
 }
 
 template <class T1,class T2>
-Rate<T1,T2>& Rate<T1,T2>:: operator--() {
-    rating--;
-    if (rating < 0) {
-        cout << "cannot decrement, rating < 0"<<endl;
-        rating++;
-    };
-    return *this;
+T1 Rate<T1,T2>:: getTitle() const {
+    return title;
 }
 template <class T1,class T2>
-Rate<T1,T2>& Rate<T1,T2>:: operator++() {
-    rating++;
-    if (rating > 5){
-        cout << "cannot increment, rating > 5"<<endl;
-        rating--;
+T2 Rate<T1,T2>:: getRating() const {
+    return rating;
+};
+template <class T1,class T2>
+void Rate<T1,T2>:: setNewRating(const float value){
+    T2 new_rating = (getRating() + value) / 2;
+    rating=new_rating;
+};
+
+//повна спеціалізація для шаблонного класу
+template <>
+class Rate<Movie,Movie> {
+    Movie title;
+    Movie rating;
+
+public:
+   Rate<Movie,Movie>() : title(), rating(0.0) {}
+    Rate<Movie,Movie>(const Rate<Movie,Movie> &copy) : title(copy.title), rating(copy.rating) {}
+    Rate<Movie,Movie>(Movie _title, Movie _rating) : title(_title), rating(_rating) {}
+    ~Rate<Movie,Movie>(){};
+    Movie getTitle() const {
+        return title;
+    }
+    Movie getRating() const {
+        return rating;
+    }
+    friend ostream& operator << (ostream& os, const Rate<Movie,Movie>& obj){
+        os<<"Your rated movie: (title) - " <<obj.title.getTitle() << " " << "(rating) - " <<obj.rating.getRating() <<endl;
+        return os;
     };
-    return *this;
-}
+    void show() {
+        cout << "Your rated movie: (title) - " << title.getTitle() << " " << "(rating) - " << rating.getRating() << endl;
+    }
+};
 
 int main() {
     int temp, index; 
+     float rate;
     string tmp;
     //create movies
     string m1_genres[] = {"Action", "Thriller"};
@@ -122,44 +144,48 @@ int main() {
     string m5_genres[] = { "Adventure", "Fantasy" };
     int len5 = sizeof(m5_genres) / sizeof(m5_genres[0]);
     Movie m5("Pirates of the Caribbean", "Very interesting", m5_genres, len5, "Film", 4.5);
-    //operator ()
+    
+   //operator ()
     MovieList mlist;
-    mlist(&m1); mlist(&m2); mlist(&m3);
-    MovieList mlist1;
-    mlist1(&m4); mlist1(&m5);
-    //operator +
-  // cout<<"======= operator + for MovieList =========="<<endl;
-    MovieList allmlist = mlist + mlist1;
-  //operator []
+    mlist(&m1); mlist(&m2); mlist(&m3); mlist(&m4); mlist(&m5);
+
+    vector<Movie> movie_list;
+    movie_list.push_back(m1);
+    movie_list.push_back(m2);
+    movie_list.push_back(m3);
+    movie_list.push_back(m4);
+    movie_list.push_back(m5);
+    for(const auto&elem: movie_list){
+        cout<<"==movie: "<<elem<<endl;
+    }//алгоритм стл
+     //operator []
    cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
     cin>>index;
-    Movie* movie = allmlist[index];
-
+    Movie* movie = mlist[index];
+    map<string,string> movie_container;
+    movie_container["Title"] = movie->getTitle();
+    movie_container["Description"] = movie->getDescription();
+    movie_container["Genre"] = movie->getGenre();
+    movie_container["Type"] = movie->getType();
+    for(const auto&elem: movie_container){
+        cout<<elem.first<<": "<<elem.second<<endl;
+      }//ітерування
     
-    cout<<"======= template class ======="<<endl;
+    cout<<"\n======= template class ======="<<endl;
     Rate<string,float> r0;
-    Rate r1( "Fight Club", 4.8);  // неявне Rate<string,double>
-    Rate<string, int> r2(m2.getTitle(), m5.getRating());
+    cout<<"<string,float> for default:"<<"  "<<r0;
+    Rate r1(1984, m1.getRating());
+    cout<<":"<<r1;
+    Rate<Movie,Movie> r2(m2,m3);   //повна спеціалізація для шаблонного класу
+    cout<<"<Movie,Movie>:"<<"  "<<r2;
     Rate<string, double> r3(movie->getTitle(), movie->getRating());
-    //Rate<Movie, float> problem(movie->getTitle(), movie->getRating());
-    cout<<r0<<r1<<r2<<r3;
-   // r0.show(); r1.show(); r2.show(); r3.show();
-    cout<<"==== Would you like to change rating of the"<<" "<<movie->getTitle()<<" "<<"?(0/1)"<<endl;
-    cin>>temp;
-    if(temp){
-        cout<<"++ or --"<<endl;
-        cin>>tmp;
-        if(tmp=="++"){ ++r3;
-//            cout<<"Continue?"<<" ";
-//            cin>>t;
-//            if (t) goto CONT;
-           }
-        else if(tmp=="--") {
-            --r3;
-        }
-        else cout<<"Incorrect value"<<endl;
-    }
-    cout<<r3;
+    cout<<"<string, double> for your chosen movie:"<<"  "<<r3;
+    
+    cout<<"====================="<<endl;
+    cout<<"Enter new rating for the"<<"''"<<r3.getTitle()<<"''"<<endl;
+    cin>>rate;
+    r3.setNewRating(rate); cout<<"New rating: "<<r3.getRating()<<endl;
+
     
 /*
     //static
