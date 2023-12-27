@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <map>
+#include <iterator>
 #include "Movie/Movie.h"
 #include "Movie/Movie.cpp"
 #include "Series/Series.h"
@@ -56,16 +57,16 @@ public:
     Rate<T1,T2>(const  Rate&);
     Rate<T1,T2>(T1 _title, T2 _rating);
     ~Rate<T1,T2>(){};
-   friend ostream& operator << (ostream& os, const Rate<T1,T2>& obj){
-          os<<"Your rated movie: (title) - " <<obj.title << " " << "(rating) - " <<obj.rating <<endl;
-          return os;};
+    friend ostream& operator << (ostream& os, const Rate<T1,T2>& obj){
+        os<<"Your rated movie: (title) - " <<obj.title << " " << "(rating) - " <<obj.rating <<endl;
+        return os;};
     void show();
     T1 getTitle() const;
     T2 getRating() const;
     void setNewRating(const float value);
 };
 template <class T1,class T2>
-    Rate<T1,T2>:: Rate(){
+Rate<T1,T2>:: Rate(){
     title="no movie";
     rating=0.0;
 };
@@ -90,6 +91,10 @@ T2 Rate<T1,T2>:: getRating() const {
 };
 template <class T1,class T2>
 void Rate<T1,T2>:: setNewRating(const float value){
+    if (value > 5 || value < 0){
+        cout << "rating must be from 0 to 5" << endl;
+        return;
+    }
     T2 new_rating = (getRating() + value) / 2;
     rating=new_rating;
 };
@@ -101,7 +106,7 @@ class Rate<Movie,Movie> {
     Movie rating;
 
 public:
-   Rate<Movie,Movie>() : title(), rating(0.0) {}
+    Rate<Movie,Movie>() : title(), rating() {}
     Rate<Movie,Movie>(const Rate<Movie,Movie> &copy) : title(copy.title), rating(copy.rating) {}
     Rate<Movie,Movie>(Movie _title, Movie _rating) : title(_title), rating(_rating) {}
     ~Rate<Movie,Movie>(){};
@@ -120,9 +125,13 @@ public:
     }
 };
 
+bool compareByRating(const Movie* a, const Movie* b) {
+    return a->rating > b->rating;
+}
+
 int main() {
-    int temp, index; 
-     float rate;
+    int temp, index;
+    float rate;
     string tmp;
     //create movies
     string m1_genres[] = {"Action", "Thriller"};
@@ -144,25 +153,25 @@ int main() {
     string m5_genres[] = { "Adventure", "Fantasy" };
     int len5 = sizeof(m5_genres) / sizeof(m5_genres[0]);
     Movie m5("Pirates of the Caribbean", "Very interesting", m5_genres, len5, "Film", 4.5);
-    
-   // //operator ()
-   //  MovieList mlist;
-   //  mlist(&m1); mlist(&m2); mlist(&m3); mlist(&m4); mlist(&m5);
-   //  vector<Movie> movie_list;
-   //  movie_list.push_back(m1);
-   //  movie_list.push_back(m2);
-   //  movie_list.push_back(m3);
-   //  movie_list.push_back(m4);
-   //  movie_list.push_back(m5);
-   //  for(const auto&elem: movie_list){
-   //      cout<<"==movie: "<<elem<<endl;
-   //  }//алгоритм стл
-   //   //operator []
-   // cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
-   //  cin>>index;
-   //  Movie* movie = mlist[index];
 
-    //все ж таки краще без використання перевантажених операторів, бо це виходить зайве ускладення та дублювання 
+    // //operator ()
+    //  MovieList mlist;
+    //  mlist(&m1); mlist(&m2); mlist(&m3); mlist(&m4); mlist(&m5);
+    //  vector<Movie> movie_list;
+    //  movie_list.push_back(m1);
+    //  movie_list.push_back(m2);
+    //  movie_list.push_back(m3);
+    //  movie_list.push_back(m4);
+    //  movie_list.push_back(m5);
+    //  for(const auto&elem: movie_list){
+    //      cout<<"==movie: "<<elem<<endl;
+    //  }//алгоритм стл
+    //   //operator []
+    // cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
+    //  cin>>index;
+    //  Movie* movie = mlist[index];
+
+    //все ж таки краще без використання перевантажених операторів, бо це виходить зайве ускладення та дублювання
     vector<Movie*> movie_list;
     movie_list.push_back(&m1);
     movie_list.push_back(&m2);
@@ -172,7 +181,23 @@ int main() {
     for(const auto&elem: movie_list){
         cout<<"==movie: "<<*elem<<endl;
     }//додати алгоритм стл
-    
+
+    cout << endl << "====================find=====================" << endl;
+    Movie m6;
+    auto it = find(begin(movie_list), end(movie_list), &m2);
+    if (it != end(movie_list)){
+        cout << "found at position " << it - begin(movie_list) + 1 << endl;
+    }
+    else {
+        cout << "element is not found" << endl;
+    }
+
+    cout << endl << "====================sort=====================" << endl;
+    sort(begin(movie_list), end(movie_list), compareByRating);
+    for(const auto&elem: movie_list) {
+        cout << "==movie: " << *elem << endl;
+    }
+
     cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
     cin>>index;
     Movie* movie = movie_list[index-1];
@@ -181,26 +206,31 @@ int main() {
     movie_container["Description"] = movie->getDescription();
     movie_container["Genre"] = movie->getGenre();
     movie_container["Type"] = movie->getType();
+    for(auto elem = movie_container.rbegin(); elem != movie_container.rend(); ++elem){
+        cout<<elem->first<<": "<<elem->second<<endl;
+    }//змінити на зворотнє ітерування
+    cout << endl;
     for(const auto&elem: movie_container){
         cout<<elem.first<<": "<<elem.second<<endl;
-      }//змінити на зворотнє ітерування
-    
+    }
+
+
     cout<<"\n======= template class ======="<<endl;
     Rate<string,float> r0;
     cout<<"<string,float> for default:"<<"  "<<r0;
-    Rate r1(1984, m1.getRating());
-    cout<<":"<<r1;
-    Rate<Movie,Movie> r2(m2,m3);   //повна спеціалізація для шаблонного класу
+    Rate<int, int> r1(1984, m1.getRating());
+    cout<<": "<<r1;
+    Rate<Movie,Movie> r2(m2,m4);   //повна спеціалізація для шаблонного класу
     cout<<"<Movie,Movie>:"<<"  "<<r2;
     Rate<string, double> r3(movie->getTitle(), movie->getRating());
     cout<<"<string, double> for your chosen movie:"<<"  "<<r3;
-    
+
     cout<<"====================="<<endl;
     cout<<"Enter new rating for the"<<"''"<<r3.getTitle()<<"''"<<endl;
     cin>>rate;
     r3.setNewRating(rate); cout<<"New rating: "<<r3.getRating()<<endl;
 
-    
+
 /*
     //static
     int temp, index;
@@ -222,7 +252,7 @@ int main() {
     cout<<"=========  operator << ========"<<endl;
     cout<<f_obj1<<endl;
 
-   /* if (f_obj1.TypeSelected(ttype)) {
+    if (f_obj1.TypeSelected(ttype)) {
         cout << "YES1!Selected" << endl;
     }
     else {
@@ -348,7 +378,7 @@ int main() {
     g.show();
 
     //generation and user
-    /*  Generation g;
+      Generation g;
       g.show();
       cout<<"====Generation from Movie"<<endl;
       Generation g4(m2);
