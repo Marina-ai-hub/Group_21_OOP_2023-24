@@ -57,9 +57,6 @@ public:
     Rate<T1,T2>(const  Rate&);
     Rate<T1,T2>(T1 _title, T2 _rating);
     ~Rate<T1,T2>(){};
-    friend ostream& operator << (ostream& os, const Rate<T1,T2>& obj){
-        os<<"Your rated movie: (title) - " <<obj.title << " " << "(rating) - " <<obj.rating <<endl;
-        return os;};
     void show();
     T1 getTitle() const;
     T2 getRating() const;
@@ -98,7 +95,30 @@ void Rate<T1,T2>:: setNewRating(const float value){
     T2 new_rating = (getRating() + value) / 2;
     rating=new_rating;
 };
-
+//часткова спеціалізація для шаблонного класу
+template <class T2>
+class Rate<Movie,T2> {
+    Movie title;
+    T2 rating;
+public:
+    Rate<Movie,T2>() : title(), rating(0.0) {}
+    Rate<Movie,T2>(const Rate<Movie,T2> &copy) : title(copy.title), rating(copy.rating) {}
+    Rate<Movie,T2>(Movie _title, T2 _rating) : title(_title), rating(_rating) {}
+    ~Rate<Movie,T2>(){};
+    Movie getTitle() const {
+        return title;
+    }
+    T2 getRating() const {
+        return rating;
+    }
+    void show() {
+        cout << "Your rated movie: (title) - " << title.getTitle() << " " << "(rating) - " << rating << endl;
+    }
+    void setNewRating(const T2 value){
+        T2 new_rating = (getRating() + value) / 2;
+        rating=new_rating;
+    };
+};
 //повна спеціалізація для шаблонного класу
 template <>
 class Rate<Movie,Movie> {
@@ -116,10 +136,6 @@ public:
     Movie getRating() const {
         return rating;
     }
-    friend ostream& operator << (ostream& os, const Rate<Movie,Movie>& obj){
-        os<<"Your rated movie: (title) - " <<obj.title.getTitle() << " " << "(rating) - " <<obj.rating.getRating() <<endl;
-        return os;
-    };
     void show() {
         cout << "Your rated movie: (title) - " << title.getTitle() << " " << "(rating) - " << rating.getRating() << endl;
     }
@@ -193,7 +209,7 @@ int main() {
     }
 
     cout << endl << "====================sort=====================" << endl;
-    sort(begin(movie_list), end(movie_list), compareByRating);
+    sort(begin(movie_list), end(movie_list), &compareByRating);
     for(const auto&elem: movie_list) {
         cout << "==movie: " << *elem << endl;
     }
@@ -214,16 +230,22 @@ int main() {
         cout<<elem.first<<": "<<elem.second<<endl;
     }
 
-
+    float user_rate;
     cout<<"\n======= template class ======="<<endl;
     Rate<string,float> r0;
-    cout<<"<string,float> for default:"<<"  "<<r0;
+    cout<<"<string,float> for default:"<<"  "; r0.show();
     Rate<int, int> r1(1984, m1.getRating());
-    cout<<": "<<r1;
-    Rate<Movie,Movie> r2(m2,m4);   //повна спеціалізація для шаблонного класу
-    cout<<"<Movie,Movie>:"<<"  "<<r2;
+    cout<<":"; r1.show();
+    Rate<Movie,Movie> r2(m2,m5);  //повна спеціалізація для шаблонного класу
+   cout<<"<Movie,Movie>:"<<"  "; r2.show();
+
+    cout<<"=======Enter rating for the"<<"''"<<m1.getTitle()<<"''"<<endl;
+    cin>>user_rate;
+    Rate<Movie,float> r4(m1,user_rate);  //часткова спеціалізація для шаблонного класу
+    cout<<"<Movie,float>:"<<"  "; r4.show();
+    
     Rate<string, double> r3(movie->getTitle(), movie->getRating());
-    cout<<"<string, double> for your chosen movie:"<<"  "<<r3;
+    cout<<"<string, double> for your chosen movie:"<<"  "; r3.show();
 
     cout<<"====================="<<endl;
     cout<<"Enter new rating for the"<<"''"<<r3.getTitle()<<"''"<<endl;
