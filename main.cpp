@@ -77,7 +77,6 @@ template <class T1,class T2>
 void Rate<T1,T2>:: show(){
     cout<<"Your rated movie: (title) - " << title << " " << "(rating) - " << rating <<endl;
 }
-
 template <class T1,class T2>
 T1 Rate<T1,T2>:: getTitle() const {
     return title;
@@ -95,6 +94,7 @@ void Rate<T1,T2>:: setNewRating(const float value){
     T2 new_rating = (getRating() + value) / 2;
     rating=new_rating;
 };
+
 //часткова спеціалізація для шаблонного класу
 template <class T2>
 class Rate<Movie,T2> {
@@ -119,6 +119,7 @@ public:
         rating=new_rating;
     };
 };
+
 //повна спеціалізація для шаблонного класу
 template <>
 class Rate<Movie,Movie> {
@@ -145,6 +146,7 @@ bool compareByRating(const Movie* a, const Movie* b) {
     return a->rating > b->rating;
 }
 
+
 int main() {
     int temp, index;
     float rate;
@@ -152,7 +154,7 @@ int main() {
     //create movies
     string m1_genres[] = {"Action", "Thriller"};
     int len1 = sizeof(m1_genres)/sizeof(m1_genres[0]);
-    Movie m1("Fight Club", "Very intense", m1_genres, len1, "Film", 3.7);
+    Movie m1("Fight Club", "Very intense", m1_genres, len1, "Film", 3);
 
     string m2_genres[] = {"Musicals", "Comedy", "Romance"};
     int len2 = sizeof(m2_genres)/sizeof(m2_genres[0]);
@@ -160,7 +162,7 @@ int main() {
 
     string m3_genres[] = {"Comedy"};
     int len3 = sizeof(m3_genres)/sizeof(m3_genres[0]);
-    Series m3("Office", "Very funny", m3_genres, len3, "Series", 0.8, 9);
+    Movie m3("Happy New Year", "Very funny", m3_genres, len3, "Cartoon", 0.8);
 
     string m4_genres[] = { "Action", "Fantasy" };
     int len4 = sizeof(m4_genres) / sizeof(m4_genres[0]);
@@ -187,33 +189,38 @@ int main() {
     //  cin>>index;
     //  Movie* movie = mlist[index];
 
-    //все ж таки краще без використання перевантажених операторів, бо це виходить зайве ускладення та дублювання
+
+    //vector
     vector<Movie*> movie_list;
     movie_list.push_back(&m1);
     movie_list.push_back(&m2);
     movie_list.push_back(&m3);
     movie_list.push_back(&m4);
     movie_list.push_back(&m5);
-    for(const auto&elem: movie_list){
+    //iterator
+    for(const auto elem: movie_list){
         cout<<"==movie: "<<*elem<<endl;
-    }//додати алгоритм стл
+    }
 
+    //find in vector
     cout << endl << "====================find=====================" << endl;
     Movie m6;
     auto it = find(begin(movie_list), end(movie_list), &m2);
     if (it != end(movie_list)){
-        cout << "found at position " << it - begin(movie_list) + 1 << endl;
+        cout << "''"<< m2.getTitle() << "''" << " found at position " << it - begin(movie_list) + 1 << endl;
     }
     else {
         cout << "element is not found" << endl;
     }
 
+    //sort vector
     cout << endl << "====================sort=====================" << endl;
     sort(begin(movie_list), end(movie_list), &compareByRating);
-    for(const auto&elem: movie_list) {
+    for(const auto elem: movie_list) {
         cout << "==movie: " << *elem << endl;
     }
 
+    //map
     cout<<"Enter movie's index you would like to see (from 1 to 5)"<<endl;
     cin>>index;
     Movie* movie = movie_list[index-1];
@@ -222,36 +229,45 @@ int main() {
     movie_container["Description"] = movie->getDescription();
     movie_container["Genre"] = movie->getGenre();
     movie_container["Type"] = movie->getType();
+    //reverse iterator
     for(auto elem = movie_container.rbegin(); elem != movie_container.rend(); ++elem){
         cout<<elem->first<<": "<<elem->second<<endl;
-    }//змінити на зворотнє ітерування
+    }
     cout << endl;
     for(const auto&elem: movie_container){
         cout<<elem.first<<": "<<elem.second<<endl;
     }
 
+    //template class
     float user_rate;
     cout<<"\n======= template class ======="<<endl;
     Rate<string,float> r0;
-    cout<<"<string,float> for default:"<<"  "; r0.show();
+    cout<<"<string,float> for default: ";
+    r0.show();
     Rate<int, int> r1(1984, m1.getRating());
-    cout<<":"; r1.show();
+    cout<<": ";
+    r1.show();
     Rate<Movie,Movie> r2(m2,m5);  //повна спеціалізація для шаблонного класу
-   cout<<"<Movie,Movie>:"<<"  "; r2.show();
+    cout<<"<Movie,Movie>: ";
+    r2.show();
 
-    cout<<"=======Enter rating for the"<<"''"<<m1.getTitle()<<"''"<<endl;
-    cin>>user_rate;
-    Rate<Movie,float> r4(m1,user_rate);  //часткова спеціалізація для шаблонного класу
-    cout<<"<Movie,float>:"<<"  "; r4.show();
-    
     Rate<string, double> r3(movie->getTitle(), movie->getRating());
-    cout<<"<string, double> for your chosen movie:"<<"  "; r3.show();
+    cout<< endl << "<string, double> for your chosen movie: ";
+    r3.show();
 
     cout<<"====================="<<endl;
-    cout<<"Enter new rating for the"<<"''"<<r3.getTitle()<<"''"<<endl;
+    cout<<"Enter new rating for the "<<"''"<<r3.getTitle()<<"''"<<endl;
     cin>>rate;
     r3.setNewRating(rate); cout<<"New rating: "<<r3.getRating()<<endl;
 
+    string m7_genres[] = {"Fantasy"};
+    int len7 = sizeof(m7_genres) / sizeof(m7_genres[0]);
+    Movie m7("Harry Potter", "Very interesting", m7_genres, len7, "Film");
+    cout<<"=======Enter rating for the "<<"''"<<m7.getTitle()<<"''"<<endl;
+    cin>>user_rate;
+    Rate<Movie,float> r4(m7,user_rate);  //часткова спеціалізація для шаблонного класу
+    cout<<"<Movie,float>: ";
+    r4.show();
 
 /*
     //static
